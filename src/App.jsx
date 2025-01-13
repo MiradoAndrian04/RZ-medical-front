@@ -1,10 +1,12 @@
 import './App.css'
 import './index.css'
-import AboutComponent from './components/AboutComponent'
+import Advantage from './components/avantage'
 
 function App() {
   return (
-    <AboutComponent/>
+    <div>
+      <Advantage/>
+    </div>
   )
 }
 
