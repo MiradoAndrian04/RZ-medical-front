@@ -1,9 +1,10 @@
 import './App.css'
-import ProduitCard from './components/ProduitCard'
+import './index.css'
+import AboutComponent from './components/AboutComponent'
 
 function App() {
   return (
-    <ProduitCard/>
+    <AboutComponent/>
   )
 }
 
