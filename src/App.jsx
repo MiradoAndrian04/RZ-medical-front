@@ -1,10 +1,10 @@
 import './App.css'
 import './index.css'
-import AboutComponent from './components/AboutComponent'
+import ContactPage from './components/page/contactpage'
 
 function App() {
   return (
-    <AboutComponent/>
+    <ContactPage/>
   )
 }
 
