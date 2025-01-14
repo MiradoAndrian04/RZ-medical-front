@@ -8,8 +8,14 @@ export default {
     extend: { 
       colors:{
         blue:'#3584C7',
-        gray:'#848383'
-      } 
+        gray:'#848383',
+        lightblue:'#86BEDA'
+      }, 
+      screens:{
+        'desktop':'1280px',
+        'laptop':'1024px',
+        'tablet':'640px'
+      }
     },
   },
   plugins: [],
