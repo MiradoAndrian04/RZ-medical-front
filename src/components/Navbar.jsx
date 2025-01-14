@@ -16,7 +16,7 @@ function Navbar() {
             </button> 
             <div className={`${
                     isOpen ? "block" : "hidden"
-                 } md:flex md:space-x-6 text-gray-700`}
+                 } md:flex md:space-x-6 text-gray-700 font-semibold`}
             >
                 <a href='' className='hover:text-blue-300 block py-2 md:py-0'>Produits</a>
                 <a href='' className='hover:text-blue-300 block py-2 md:py-0'>Services</a>
@@ -24,7 +24,7 @@ function Navbar() {
                 <a href='' className='hover:text-blue-300 block py-2 md:py-0'>Avantages</a>
                 <a href='' className='hover:text-blue-300 block py-2 md:py-0'>Contacter-nous</a>
             </div>
-            <div className='hidden md:block'>
+            <div className={`md:block ${isOpen ? "block" : "hidden"}`}>
                 <button className='text-gray-700 hover:text-blue-500'>
                     <svg xmlns='"http://www.w3.org/2000/svg'  fill='none' viewBox='0 0 24 24' strokeWidth= '2' stroke='currentColor' className='w-6 h-6'>
                         <path
