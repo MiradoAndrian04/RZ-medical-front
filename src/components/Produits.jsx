@@ -4,7 +4,6 @@ import "slick-carousel/slick/slick-theme.css";
 import ProduitCard from "./ProduitCard";
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import { faFacebook} from '@fortawesome/free-brands-svg-icons';
 
 
 import img1 from "/images/img1.jpeg";
@@ -18,7 +17,7 @@ function Produits() {
     const { className, style, onClick } = props;
     return (
       <FontAwesomeIcon icon={faChevronRight} size="3x" className={className}
-      style={{  display: "flex", color:"grey", width:"50px", height:"50px" }}
+      style={{ display: "flex", color:"grey", width:"20px", height:"50px"}}
       onClick={onClick} />
     );
   }
@@ -27,7 +26,7 @@ function Produits() {
     const { className, style, onClick } = props;
     return (
       <FontAwesomeIcon icon={faChevronLeft} size="3x" className={className}
-      style={{ display: "flex", color:"grey", width:"50px", height:"50px", zIndex:"200" }}
+      style={{ display: "flex", color:"grey", width:"20px", height:"50px", zIndex:"200" }}
       onClick={onClick} />
     );
   }

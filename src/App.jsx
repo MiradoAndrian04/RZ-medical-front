@@ -1,35 +1,27 @@
 import './App.css'
 import './index.css'
-import Produits from './components/Produits';
 import { BrowserRouter,Routes, Route} from 'react-router-dom'
-import Navbar from './components/Navbar'
-import HomeCard from './components/HomeCard'
+import Body from './components/page/Body'
+import Produits from './components/Produits';
 import ServProd from './components/ServprodCard'
 import About from './components/AboutComponent'
 import Avantage from './components/Advantage'
 import Footer from './components/page/Footer'
-import AboutComponent from './components/AboutComponent'
+import Navbar from './components/Navbar'
 
 
 function App() {
   return (
     <>
     <BrowserRouter>
-    <Navbar/>
-    <HomeCard/>
-    <Produits/>
-    <ServProd/>
-    <AboutComponent/>
-    <Avantage/>
-    <Footer/>
-    {/* <Routes>
-      <Route path="/" element={<HomeCard/>}/>
-      <Route path="/produit-expo" element={""}/>
+    <Routes>
+      <Route path="/" element={<Body/>}/>
+      <Route path="/produit-expo" element={<Produits/>}/>
       <Route path="/service" element={<ServProd/>}/>
-      <Route path="/a-propos" element={<AboutComponent/>}/>
+      <Route path="/a-propos" element={<About/>}/>
       <Route path="/advantage" element={<Avantage/>}/>
       <Route path="/contact" element={<Footer/>}/>
-    </Routes> */}
+    </Routes>
     </BrowserRouter>
     </>
   )
