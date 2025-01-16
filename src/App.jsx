@@ -1,5 +1,6 @@
 import './App.css'
 import './index.css'
+import Produits from './components/Produits';
 import { BrowserRouter,Routes, Route} from 'react-router-dom'
 import Navbar from './components/Navbar'
 import HomeCard from './components/HomeCard'
@@ -16,8 +17,9 @@ function App() {
     <BrowserRouter>
     <Navbar/>
     <HomeCard/>
+    <Produits/>
     <ServProd/>
-    <About/>
+    <AboutComponent/>
     <Avantage/>
     <Footer/>
     {/* <Routes>
