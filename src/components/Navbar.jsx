@@ -14,17 +14,18 @@ function Navbar() {
                     <path strokeLinecap='round' strokeLinejoin='round' d='M4 6h16M4 12h16M4 18h16'/>    
                 </svg>    
             </button> 
+            <div className=' flex gap-7 align-center'>
             <div className={`${
                     isOpen ? "block" : "hidden"
                  } md:flex md:space-x-6 text-gray-700 font-semibold`}
             >
-                <a href='' className='hover:text-blue-300 block py-2 md:py-0'>Produits</a>
-                <a href='' className='hover:text-blue-300 block py-2 md:py-0'>Services</a>
-                <a href='' className='hover:text-blue-300 block py-2 md:py-0'>A propos</a>
-                <a href='' className='hover:text-blue-300 block py-2 md:py-0'>Avantages</a>
-                <a href='' className='hover:text-blue-300 block py-2 md:py-0'>Contacter-nous</a>
+                <a href='' className='hover:text-blue block py-2 md:py-0'>Produits</a>
+                <a href='' className='hover:text-blue block py-2 md:py-0'>Services</a>
+                <a href='' className='hover:text-blue block py-2 md:py-0'>A propos</a>
+                <a href='' className='hover:text-blue block py-2 md:py-0'>Avantages</a>
+                <a href='' className='hover:text-blue block py-2 md:py-0'>Contacter-nous</a>
             </div>
-            <div className={`md:block ${isOpen ? "block" : "hidden"}`}>
+            <div className={`border-l-2 border-blue pl-5 md:block ${isOpen ? "block" : "hidden"}`}>
                 <button className='text-gray-700 hover:text-blue-500'>
                     <svg xmlns='"http://www.w3.org/2000/svg'  fill='none' viewBox='0 0 24 24' strokeWidth= '2' stroke='currentColor' className='w-6 h-6'>
                         <path
@@ -34,6 +35,7 @@ function Navbar() {
                         />
                     </svg>
                 </button>
+            </div>
             </div>
         </div>
     </nav>
