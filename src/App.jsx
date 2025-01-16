@@ -6,7 +6,10 @@ import ServprodCard from './components/ServprodCard'
 // import ShowProduit from './pages/ShowProduit'
 import Navbar from './components/Navbar'
 import HomeCard from './components/HomeCard'
-import AboutComponent from './components/AboutComponent'
+import ContactPage from './components/page/contactpage'
+import Footer from './Footer'
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 function App() {
   return (
     // <ServprodCard/>
@@ -15,7 +18,11 @@ function App() {
     <Navbar/>,
     <HomeCard/>,
     <ServprodCard/>,
-    <AboutComponent/>,
+    <>
+    
+    <ContactPage/>
+    <Footer/>
+    </>,
     </>
   )
 }
