@@ -16,8 +16,8 @@ function Produits() {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 3,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />
+    nextArrow: <i className="fa fa-chevron-left" aria-hidden="true"></i>,
+    prevArrow: <i className="fa fa-chevron-left" aria-hidden="true"></i>,
     responsive: [
       {
         breakpoint: 1024,
