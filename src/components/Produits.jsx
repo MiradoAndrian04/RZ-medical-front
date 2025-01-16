@@ -3,21 +3,42 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ProduitCard from "./ProduitCard";
 
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import { faFacebook} from '@fortawesome/free-brands-svg-icons';
+
 
 import img1 from "/images/img1.jpeg";
 import img2 from "/images/img2.jpeg";
 import img3 from "/images/img3.jpeg";
 import img4 from "/images/img4.png";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 function Produits() {
+  function SampleNextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <FontAwesomeIcon icon={faChevronRight} size="3x" className={className}
+      style={{  display: "flex", color:"grey", width:"50px", height:"50px" }}
+      onClick={onClick} />
+    );
+  }
+  
+  function SamplePrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <FontAwesomeIcon icon={faChevronLeft} size="3x" className={className}
+      style={{ display: "flex", color:"grey", width:"50px", height:"50px", zIndex:"200" }}
+      onClick={onClick} />
+    );
+  }
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 3,
-    nextArrow: <i className="fa fa-chevron-left" aria-hidden="true"></i>,
-    prevArrow: <i className="fa fa-chevron-left" aria-hidden="true"></i>,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
     responsive: [
       {
         breakpoint: 1024,
