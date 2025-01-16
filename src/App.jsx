@@ -1,12 +1,12 @@
 import './App.css'
 import './index.css'
-import Produits from './components/Produits';
+import ServProdCard from './components/ServprodCard'
 
 
 function App() {
   return (
     <>
-    <Produits/>
+    <ServProdCard/>
     
     </>
   )
