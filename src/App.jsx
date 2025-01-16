@@ -1,10 +1,10 @@
 import './App.css'
 import './index.css'
-import Advantages from './components/Advantage'
+import Register from './components/admin/Register'
 
 function App() {
   return (
-      <Advantages/>
+      <Register/>
   )
 }
 
