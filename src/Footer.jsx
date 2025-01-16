@@ -6,6 +6,7 @@ function Footer() {
   return (
     <footer className="bg-gray-900 text-white py-8">
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+        
         {/* Company Info Section */}
         <div>
           <h2 className="text-2xl font-bold mb-4">RZ Medical</h2>
