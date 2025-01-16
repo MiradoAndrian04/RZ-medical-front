@@ -8,6 +8,7 @@ import About from './components/AboutComponent'
 import Avantage from './components/Advantage'
 import Footer from './components/page/Footer'
 import Navbar from './components/Navbar'
+import Login from './Admin/Login'
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
       <Route path="/a-propos" element={<About/>}/>
       <Route path="/advantage" element={<Avantage/>}/>
       <Route path="/contact" element={<Footer/>}/>
+      <Route path="/login" element={<Login/>}/>
     </Routes>
     </BrowserRouter>
     </>

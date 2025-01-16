@@ -11,7 +11,7 @@ function Footer() {
         <div>
           <h2 className="text-2xl font-bold mb-4">RZ Medical</h2>
           <p className="text-gray-400">
-          Nous fournissons les meilleurs services à nos clients.Votre satisfaction est notre priorité.
+          Nous fournissons les meilleurs services à nos clients. <br /> Votre satisfaction est notre priorité.
           </p>
           <div className="flex space-x-4 mt-4">
             <a href="#" className="text-blue-600">

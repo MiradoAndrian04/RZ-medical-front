@@ -16,7 +16,10 @@ export default {
         gray100:'#f3f4f6',
         gray600:'#4b5563',
         gray800:'#1f2937'
-      }
+      },
+      backgroundImage: {
+        'custom-gradient': 'linear-gradient(to right, #ff7e5f, #feb47b)',
+      },
     },
   },
   plugins: [],
