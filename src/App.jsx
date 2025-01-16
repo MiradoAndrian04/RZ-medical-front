@@ -1,13 +1,10 @@
 import './App.css'
 import './index.css'
-// import ProduitCard from './components/ProduitCard'
-import ServprodCard from './components/ServprodCard'
-// import ProduitPage from './pages/ProduitPage'
-// import ShowProduit from './pages/ShowProduit'
+import Produits from './components/Produits';
 
 function App() {
   return (
-    <ServprodCard/>
+    <Produits/>
   )
 }
 
