@@ -1,10 +1,13 @@
 import './App.css'
 import './index.css'
-import HomeCard from './components/HomeCard'
+// import ProduitCard from './components/ProduitCard'
+import ServprodCard from './components/ServprodCard'
+// import ProduitPage from './pages/ProduitPage'
+// import ShowProduit from './pages/ShowProduit'
 
 function App() {
   return (
-    <HomeCard/>
+    <ServprodCard/>
   )
 }
 
