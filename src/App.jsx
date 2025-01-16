@@ -1,9 +1,13 @@
 import './App.css'
 import './index.css'
-import Advantage from './components/avantage'
+// import ProduitCard from './components/ProduitCard'
+import ServprodCard from './components/ServprodCard'
+// import ProduitPage from './pages/ProduitPage'
+// import ShowProduit from './pages/ShowProduit'
 
 function App() {
   return (
+    <ServprodCard/>
     <div>
       <Advantage/>
     </div>
