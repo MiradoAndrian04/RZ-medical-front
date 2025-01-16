@@ -20,12 +20,12 @@ const HomeCard = () => {
     slidesToScroll: 1,
     autoplay: true,
     speed:1500,
-    autoplaySpeed: 10000,
+    autoplaySpeed: 5000,
     fade:true,
     // pauseOnHover: true
   };
   return (
-    <div >
+    <div className="mt-[-23px]">
       <div className="slider-container  relative overflow-hidden">
         {/* <h2>Auto Play {"&"} Pause with buttons</h2> */}
 
