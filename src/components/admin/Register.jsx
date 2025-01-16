@@ -37,9 +37,9 @@ const AddProductForm = () => {
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
+        className="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-lg sm:max-w-md"
       >
-        <h1 className="text-2xl font-bold mb-6 text-gray-800">Ajouter un Produit</h1>
+        <h1 className="text-2xl font-bold mb-6 text-gray-800 text-center">Ajouter un Produit</h1>
 
         {/* Téléchargement d'images */}
         <div className="mb-6">
@@ -56,7 +56,7 @@ const AddProductForm = () => {
             accept="image/*"
           />
           {product.imagePreviews.length > 0 && (
-            <div className="mt-4 grid grid-cols-2 gap-4">
+            <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-4">
               {product.imagePreviews.map((preview, index) => (
                 <img
                   key={index}
@@ -124,23 +124,23 @@ const AddProductForm = () => {
 
         {/* Catégorie */}
         <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2" htmlFor="category">
-                    Catégorie
-                </label>
-                <select
-                    id="category"
-                    name="category"
-                    value={product.category}
-                    onChange={handleChange}
-                    className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                >
-                    <option value="" disabled>Choisissez une catégorie</option>
-                    <option value="electronics">Électronique</option>
-                    <option value="clothing">Vêtements</option>
-                    <option value="furniture">Meubles</option>
-                </select>
-                </div>
+          <label className="block text-gray-700 font-medium mb-2" htmlFor="category">
+            Catégorie
+          </label>
+          <select
+            id="category"
+            name="category"
+            value={product.category}
+            onChange={handleChange}
+            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          >
+            <option value="" disabled>Choisissez une catégorie</option>
+            <option value="electronics">Électronique</option>
+            <option value="clothing">Vêtements</option>
+            <option value="furniture">Meubles</option>
+          </select>
+        </div>
 
         {/* Description */}
         <div className="mb-4">
@@ -158,20 +158,18 @@ const AddProductForm = () => {
           ></textarea>
         </div>
 
-        
-
         {/* Boutons */}
-        <div className="flex justify-between">
+        <div className="flex flex-col sm:flex-row justify-between gap-4 sm:gap-0">
           <button
             type="submit"
-            className="bg-blue-500 text-white font-medium py-3 px-4 rounded-lg hover:bg-blue-600 transition duration-300"
+            className="bg-blue-500 text-white font-medium py-3 px-4 rounded-lg hover:bg-blue-600 transition duration-300 w-full sm:w-auto"
           >
             Ajouter le produit
           </button>
           <button
             type="button"
             onClick={() => console.log('Confirmation action')}
-            className="bg-green-500 text-white font-medium py-3 px-4 rounded-lg hover:bg-green-600 transition duration-300"
+            className="bg-green-500 text-white font-medium py-3 px-4 rounded-lg hover:bg-green-600 transition duration-300 w-full sm:w-auto"
           >
             Confirmer
           </button>
