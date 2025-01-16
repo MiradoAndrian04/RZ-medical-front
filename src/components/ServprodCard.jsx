@@ -4,8 +4,8 @@ import {motion} from 'motion/react'
 
 function ServprodCard() {
     const transition = {
-        duration: 0.8,
-        delay: 0.5,
+        duration: 1,
+        delay: 1.5,
         ease: [0, 0.71, 0.2, 1.01],
       }
   return (
@@ -41,7 +41,7 @@ function ServprodCard() {
     <motion.div 
     initial={{opacity:0, x:100}}
     animate={{opacity:1, x:0}}
-    transition={{duration:1, ease:"easeOut", delay:0.2}}
+    transition={{duration:1, ease:"easeOut", delay:0.5}}
     className="w-[81.5%] h-[550px] ml-[9.3%] overflow-hidden">
   <img src="../../public/img/RZ.jpeg" alt="Example" className="object-cover w-full h-full" />
 </motion.div>
