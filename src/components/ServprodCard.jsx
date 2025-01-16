@@ -10,7 +10,7 @@ function ServprodCard() {
     };
 
     return (
-        <div className='flex flex-col'>
+        <div className='flex flex-col mt-6'>
             <motion.div 
                 variants={{
                     hidden: { opacity: 0 },

@@ -25,7 +25,7 @@ const HomeCard = () => {
     // pauseOnHover: true
   };
   return (
-    <div className="mt-[-23px]">
+    <div>
       <div className="slider-container  relative overflow-hidden">
         {/* <h2>Auto Play {"&"} Pause with buttons</h2> */}
 
