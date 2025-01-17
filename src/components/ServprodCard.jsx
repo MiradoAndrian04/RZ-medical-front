@@ -1,4 +1,3 @@
-
 import { motion } from "motion/react";
 
 function ServprodCard() {
@@ -47,25 +46,29 @@ function ServprodCard() {
         </motion.a>
       </motion.div>
 
-            <motion.div
-                initial={{ opacity: 0, x: 100 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
-                className="w-[81.5%] h-[550px] ml-[9.3%] overflow-hidden"
-            >
-                <img src="../../public/img/RZ.jpeg" alt="Example" className="object-cover w-full h-full" />
-            </motion.div>
+      <motion.div
+        initial={{ opacity: 0, x: 100 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
+        className="w-full max-w-[1160px] m-auto max-lg:aspect-video overflow-hidden aspect-video"
+      >
+        <img
+          src="../../public/img/RZ.jpeg"
+          alt="Example"
+          className="object-cover w-full h-full"
+        />
+      </motion.div>
 
-      <div className="flex flex-col w-[83%] h-auto mt-[7%] ml-[7.5%]">
+      <div className="flex flex-col max-w-[1160px] w-full  max-md:p-3 h-auto mt-[7%] mx-auto">
         <h1 className="flex justify-center text-[35px] text-blue font-semibold">
           Nos services
         </h1>
 
         <motion.div
-        initial={{ x: -100 }}
+          initial={{ x: -100 }}
           whileInView={{ x: 0 }}
           transition={transition}
-          className="flex flex-row max-md:flex-col w-full h-auto mt-5 max-md:mt-10 gap-5 max-md:gap-0"
+          className="flex flex-row max-md:flex-col w-full h-auto mt-5 max-md:mt-3 gap-5 max-md:gap-0 max-md:border-[1px] max-md:border-grey-300 rounded-md p-3"
         >
           <div className="w-[30%] max-md:w-[70%] max-md:mx-auto h-auto ml-[2%]">
             <img
@@ -89,10 +92,10 @@ function ServprodCard() {
         </motion.div>
 
         <motion.div
-        initial={{ x: 200 }}
+          initial={{ x: 200 }}
           whileInView={{ x: 0 }}
           transition={transition}
-          className="flex flex-row max-md:flex-col-reverse w-full h-auto mt-5 max-md:mt-10 gap-5 max-md:gap-0"
+          className="flex flex-row max-md:flex-col-reverse w-full h-auto mt-5 max-md:mt-3 gap-5 max-md:gap-0 max-md:gap-0 max-md:border-[1px] max-md:border-grey-300 rounded-md p-3"
         >
           <div className="w-[70%] h-[250px] ml-[2%] max-lg:ml-3 max-md:mx-auto h-auto">
             <p className="mt-5 text-gray max-md:text-center mb-1">
@@ -116,10 +119,10 @@ function ServprodCard() {
         </motion.div>
 
         <motion.div
-        initial={{ x: -100 }}
+          initial={{ x: -100 }}
           whileInView={{ x: 0 }}
           transition={transition}
-          className="flex flex-row max-md:flex-col w-full h-auto mt-5 max-md:mt-10 gap-5 max-md:gap-0"
+          className="flex flex-row max-md:flex-col w-full h-auto mt-5 max-md:mt-3 gap-5 max-md:gap-0 max-md:gap-0 max-md:border-[1px] max-md:border-grey-300 rounded-md p-3"
         >
           <div className="w-[30%] max-md:w-[70%] max-md:mx-auto h-auto ml-[2%]">
             <img
@@ -128,7 +131,7 @@ function ServprodCard() {
               alt="chaise"
             />
           </div>
-          <div className="w-[70%] h-[230px] max-md:mx-auto">
+          <div className="w-[70%] h-[230px] max-md:mx-auto h-auto">
             <p className="mt-5 text-gray max-md:text-center">
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci
               doloremque totam pariatur architecto. Voluptate doloribus laborum

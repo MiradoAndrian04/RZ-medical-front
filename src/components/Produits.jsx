@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -17,7 +18,7 @@ function Produits() {
     const { className, style, onClick } = props;
     return (
       <FontAwesomeIcon icon={faChevronRight} size="3x" className={className}
-      style={{ display: "flex", color:"grey", width:"20px", height:"50px"}}
+      style={{...style, display: "flex", color:"grey", width:"80px", height:"30px"}}
       onClick={onClick} />
     );
   }
@@ -26,7 +27,7 @@ function Produits() {
     const { className, style, onClick } = props;
     return (
       <FontAwesomeIcon icon={faChevronLeft} size="3x" className={className}
-      style={{ display: "flex", color:"grey", width:"20px", height:"50px", zIndex:"200" }}
+      style={{...style, display: "flex", color:"grey", width:"80px", height:"30px", zIndex:"200" }}
       onClick={onClick} />
     );
   }
@@ -36,11 +37,11 @@ function Produits() {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 3,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
+    nextArrow: <SampleNextArrow className={"chevron"}/>,
+    prevArrow: <SamplePrevArrow/>,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 768,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
@@ -60,9 +61,9 @@ function Produits() {
 
   return (
     <div className="slider-container max-w-7xl mx-auto p-4">
-      <Slider {...settings}>
+      <Slider {...settings} className="px-10">
         {images.map((element, index) => (
-          <ProduitCard key={index} src={element.src} titre={element.titre} className={"w-[2vw]"}/>
+          <ProduitCard key={index} src={element.src} titre={element.titre} className={"w-[19vw] max-md:w-[25vw] max-sm:w-[33vw] flex flex-col my-3 mx-3"}/>
         ))}
       </Slider>
     </div>
