@@ -4,7 +4,6 @@ import "slick-carousel/slick/slick-theme.css";
 import ProduitCard from "./ProduitCard";
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import { faFacebook} from '@fortawesome/free-brands-svg-icons';
 
 
 import img1 from "/images/img1.jpeg";
