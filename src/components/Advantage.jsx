@@ -8,10 +8,10 @@ const Advantages = () => {
   };
 
   return (
-    <div className="bg-gray-50 py-12">
+    <div className="bg-gray-50 py-12 mt-32">
       <div className="max-w-6xl mx-auto text-center px-4">
-        <h2 className="text-lg text-blue font-bold uppercase">Notre Avantage</h2>
-        <h1 className="text-3xl font-extrabold text-gray my-4">
+        <h2 className="text-lg text-blue font-semibold uppercase">Notre Avantage</h2>
+        <h1 className="text-3xl font-semibold text-gray my-4">
           Pourquoi choisir RZ Medical ?
         </h1>
         <p className="text-gray">

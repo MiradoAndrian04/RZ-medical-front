@@ -47,18 +47,14 @@ function ServprodCard() {
         </motion.a>
       </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, x: 100 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
-        className="w-full max-w-[1160px] h-[550px] max-lg:h-[50vw] mx-auto overflow-hidden"
-      >
-        <img
-          src="../../public/img/RZ.jpeg"
-          alt="Example"
-          className="object-cover w-full h-full"
-        />
-      </motion.div>
+            <motion.div
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
+                className="w-[81.5%] h-[550px] ml-[9.3%] overflow-hidden"
+            >
+                <img src="../../public/img/RZ.jpeg" alt="Example" className="object-cover w-full h-full" />
+            </motion.div>
 
       <div className="flex flex-col w-[83%] h-auto mt-[7%] ml-[7.5%]">
         <h1 className="flex justify-center text-[35px] text-blue font-semibold">

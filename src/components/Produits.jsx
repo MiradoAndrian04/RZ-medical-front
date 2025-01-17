@@ -17,7 +17,7 @@ function Produits() {
     const { className, style, onClick } = props;
     return (
       <FontAwesomeIcon icon={faChevronRight} size="3x" className={className}
-      style={{  display: "flex", color:"grey", width:"50px", height:"50px" }}
+      style={{ display: "flex", color:"grey", width:"20px", height:"50px"}}
       onClick={onClick} />
     );
   }
@@ -26,7 +26,7 @@ function Produits() {
     const { className, style, onClick } = props;
     return (
       <FontAwesomeIcon icon={faChevronLeft} size="3x" className={className}
-      style={{ display: "flex", color:"grey", width:"50px", height:"50px", zIndex:"200" }}
+      style={{ display: "flex", color:"grey", width:"20px", height:"50px", zIndex:"200" }}
       onClick={onClick} />
     );
   }
