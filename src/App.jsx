@@ -3,18 +3,16 @@ import './index.css'
 import { BrowserRouter,Routes, Route} from 'react-router-dom'
 import Body from './components/page/Body'
 import Produits from './components/Produits';
-import ServProd from './components/ServprodCard'
+import ServProdCard from './components/ServprodCard'
 import About from './components/AboutComponent'
 import Avantage from './components/Advantage'
 import Footer from './components/page/Footer'
-import Navbar from './components/Navbar'
 import Login from './Admin/Login'
-import ServProdCard from './components/ServprodCard'
 
 
 function App() {
   return (
-    <>
+    <> 
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<Body/>}/>

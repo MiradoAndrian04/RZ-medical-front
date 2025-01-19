@@ -10,6 +10,7 @@ import Footer from '../page/Footer'
 function Body() {
   return (
     <>
+    <Navbar/>
     <HomeCard/>
     <Produits/>
     <ServProd/>
