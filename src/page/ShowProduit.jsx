@@ -5,12 +5,15 @@ function ShowProduit() {
       <div className="flex flex-row mt-3">
         <div className="flex flex-row max-md:flex-col h-auto mx-auto">
           <img src="/img/materiel.png" alt="produits" className="w-[300px] h-[300px] max-md:w-full max-md:h-[35vw] rounded-lg object-contain border"/>
-          <div className="flex flex-col flex-1 h-auto mt-3">
-            <h1 className="mx-3 my-2 text-3xl text-grey-100 font-semibold mb-3">Gant médical</h1>
-            <h1 className="mx-3 text-lg font-semibold text-gray">
+          <div className="flex flex-col flex-1 h-auto mt-3 p-3">
+            <h1 className="  text-3xl text-grey-100 font-semibold ">Gant médical</h1>
+            <p className="flex text-xl font-semibold text-blue">
+               5.000 Ar
+            </p>
+            <h1 className=" text-lg font-semibold text-gray mt-5">
               Introduction :
             </h1>
-            <p className="px-3 text-gray">
+            <p className=" text-gray">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
@@ -21,9 +24,6 @@ function ShowProduit() {
             </p>
             <br />
             <br />
-            <p className="flex text-2xl font-semibold justify-end text-blue">
-              Prix : 5.000 Ar
-            </p>
           </div>
         </div>
       </div>

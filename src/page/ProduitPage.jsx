@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ProduitCard from "../components/ProduitCard";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import { faCaretSquareDown } from "@fortawesome/free-regular-svg-icons";
@@ -45,7 +44,7 @@ function ProduitPage() {
             />
             <FontAwesomeIcon
               icon={faSearch}
-              size="md"
+              size="lg"
               className="absolute left-3 bottom-[13px] text-gray"
             />
           </div>

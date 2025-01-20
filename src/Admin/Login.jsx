@@ -2,6 +2,8 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useSetRecoilState } from "recoil";
+import userAtom from "../atoms/userAtom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -9,6 +11,7 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showPassword , setShowPassword] = useState(false)
+  const setUser = useSetRecoilState(userAtom);
 
   const navigate = useNavigate();
 
@@ -33,10 +36,11 @@ const Login = () => {
         return;
       }
       localStorage.setItem("admin-user", JSON.stringify(data));
-      navigate("/");
-    } catch {
+      setUser(data);
+      navigate("/admin/produits");
+    } catch(error){
       setLoading(false);
-      console.log("error");
+      console.log("error :", error);
     }
   };
 

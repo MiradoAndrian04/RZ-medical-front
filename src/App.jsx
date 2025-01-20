@@ -1,29 +1,55 @@
 import "./App.css";
 import "./index.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Body from "./page/Body";
 import Login from "./Admin/Login";
 import PrivateRoute from "./components/PrivateRoute";
 import ProduitPage from "./page/ProduitPage";
 import ShowProduit from "./page/ShowProduit";
 import ProduitsAll from "./components/ProduitsAll";
+import { useRecoilValue } from "recoil";
+import userAtom from "./atoms/userAtom";
+import { Navigate } from "react-router-dom";
 
+export const RedirectIfAuthenticated = () => {
+  const user = useRecoilValue(userAtom);
+
+  // Si l'utilisateur est connecté, redirige vers /admin
+  if (user) {
+    return <Navigate to="/admin" replace />;
+  }
+
+  // Sinon, rend les sous-routes (Outlet)
+  return <Outlet />;
+};
 function App() {
   return (
     <>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Body />} />
-          <Route path="/produits" element={<ProduitPage />}>
-            <Route index element={<ProduitsAll />} />
-            <Route path="/produits/:id" element={<ShowProduit />} />
-          </Route>
-          <Route path="/produits/:id" element={<ShowProduit />} />
-          <Route path="/login" element={<Login />} />
-          <Route element={<PrivateRoute/>}>
-            <Route path= "/admin" element={<ProduitPage />} />
-          </Route>
-        </Routes>
+      <Routes>
+    <Route path="/" element={<Body />} />
+
+    {/* Routes Produits accessibles */}
+    <Route path="/produits" element={<RedirectIfAuthenticated />}>
+      <Route index element={<ProduitsAll />} />
+      <Route path=":id" element={<ShowProduit />} />
+    </Route>
+
+    {/* Page de login */}
+    <Route path="/login" element={<Login />} />
+
+    {/* Routes Admin protégées */}
+    <Route path="/admin" element={<PrivateRoute />}>
+      {/* Redirection automatique de /admin vers /admin/produits */}
+      <Route index element={<Navigate to="produits" replace />} />
+
+      {/* Sous-routes pour admin (sans le / initial pour éviter l'erreur) */}
+      <Route path="produits" element={<ProduitPage />}>
+        <Route index element={<ProduitsAll />} />
+        <Route path=":id" element={<ShowProduit />} />
+      </Route>
+    </Route>
+  </Routes>
       </BrowserRouter>
     </>
   );
