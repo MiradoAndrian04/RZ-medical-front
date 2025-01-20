@@ -37,7 +37,6 @@
 .slider-container > :nth-child(2) button::before, .slider-container > :nth-child(2) button {
   display: none !important;
 }
-
 @media screen and (max-width: 768px) {
   .slider1 .slick-dots li {
     width: 30px;
@@ -51,6 +50,9 @@
   .slider1 .slick-dots li button:before {
     width: 30px;
     height: 10px;
+  }
+  .searchButton{
+    display: none !important;
   }
 }
 

@@ -31,7 +31,7 @@ const [isOpen , setIsOpen] = useState(false);
 
 
   return (
-    <div className="mt-[5px]">
+    <div className="mt-[65px]">
       <div className="slider-container  relative overflow-hidden">
         {/* <h2>Auto Play {"&"} Pause with buttons</h2> */}
 
