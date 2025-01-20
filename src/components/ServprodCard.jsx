@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { Link } from "react-router-dom";
 
 function ServprodCard() {
   const transition = {
@@ -27,22 +28,26 @@ function ServprodCard() {
           className="w-[50%] max-sm:w-full h-[216px] hover:opacity-80"
           href="#"
         >
+          <Link to="/produit">
           <div className='w-full h-full rounded-md bg-[url("./img/produit.jpg")] bg-cover bg-no-repeat p-5'>
             <p className="font-medium text-white text-lg ml-[72%] ">
               Tout nos produits
             </p>
           </div>
+          </Link>
         </motion.a>
         <motion.a
           variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }}
           className="w-[50%] max-sm:w-full h-[216px] hover:opacity-80"
           href="#"
         >
+          <Link to="/contact">
           <div className='w-full h-full rounded-md bg-[url("./img/contact.jpg")] bg-cover p-5'>
             <p className="font-medium text-white text-lg ml-[72%]">
               Contactez-Nous
             </p>
           </div>
+          </Link>
         </motion.a>
       </motion.div>
 

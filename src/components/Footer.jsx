@@ -61,7 +61,7 @@ function Footer() {
           <h2 className="text-xl font-bold mb-4">Contactez nous</h2>
           <ul className="space-y-2">
             <li>
-              <p className="text-lightgray">Phone:++261 34 123 4567</p>
+              <p className="text-lightgray">Phone:+261 34 123 4567</p>
             </li>
             <li>
               <p className="text-lightgray">Email: RZmedical@gmail.com</p>

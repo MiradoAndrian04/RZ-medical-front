@@ -5,32 +5,32 @@ function ContactPage() {
         <div className="md:flex">
 
           {/* Contact Info Section */}
-          <div className="w-full md:w-3/5 bg-gray100 p-8 sm:p-12">
-            <h1 className="text-4xl font-bold text-gray800 flex items-center"> Contactez-nous</h1>
+          <div className="flex flex-col items-center w-full md:w-3/5 bg-gray100 p-8 sm:p-12">
+            <h1 className="text-4xl font-bold text-gray600 flex items-center"> Contactez-nous</h1>
 
             {/* Contact Details */}
             <div className="mt-8">
-              <h3 className="text-2xl font-semibold text-gray800">Ligne d'assistance</h3>
-              <p className="text-lg text-gray600 mt-4 leading-relaxed">
+              <h3 className="text-2xl font-semibold text-gray600">Ligne d'assistance</h3>
+              <p className="text-lg text-gray mt-4 leading-relaxed">
                 <i className="fas fa-phone-alt text-green-600"></i> +261 34 123 4567<br />
-                <i className="fas fa-envelope text-gray600"></i> contact@rzmedical.com
+                <i className="fas fa-envelope text-gray"></i> contact@rzmedical.com
               </p>
             </div>
 
             {/* Address Section */}
             <div className="mt-8">
-              <h3 className="text-2xl font-semibold text-gray800">Adresse</h3>
-              <p className="text-lg text-gray600 mt-4 leading-relaxed">
+              <h3 className="text-2xl font-semibold text-gray600">Adresse</h3>
+              <p className="text-lg text-gray mt-4 leading-relaxed">
                 <i className="fas fa-map-marker-alt text-red-600"></i> Ankadifotsy, Antananarivo
               </p>
             </div>
 
             {/* Customer Service */}
             <div className="mt-8">
-              <h3 className="text-2xl font-semibold text-gray-800">Service après-vente</h3>
-              <p className="text-lg text-gray600 mt-4 leading-relaxed">
+              <h3 className="text-2xl font-semibold text-gray600">Service après-vente</h3>
+              <p className="text-lg text-gray mt-4 leading-relaxed">
                 <i className="fas fa-phone-alt text-green-600"></i> +261 34 567 8901<br />
-                <i className="fas fa-envelope text-gray600"></i> sav@rzmedical.com
+                <i className="fas fa-envelope text-gray"></i> sav@rzmedical.com
               </p>
             </div>
           </div>
