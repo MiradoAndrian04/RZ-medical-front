@@ -1,11 +1,10 @@
 import './App.css'
 import './index.css'
-import Register from './components/admin/Register'
+import Advantages from './components/Advantage'
 
 function App() {
   return (
-      <Register/>
+      <Advantages/>
   )
 }
-
 export default App
