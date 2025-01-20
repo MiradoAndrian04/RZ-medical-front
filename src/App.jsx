@@ -1,16 +1,12 @@
 import './App.css'
 import './index.css'
-import ContactPage from './components/page/contactpage'
-import Footer from './Footer'
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import Profil from './components/page/Profil'
 
 
 function App() {
   return (
     <>
-    
-    <ContactPage/>
-    <Footer/>
+    <Profil/>
     </>
   )
 }
