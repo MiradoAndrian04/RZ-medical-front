@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 
 const ImageSelector = () => {
   const fileInputRef = useRef(null);
@@ -14,23 +14,8 @@ const ImageSelector = () => {
     }
   };
 
-function UserProfileEdit() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
-      <div className="bg-white text-white p-6 rounded-lg shadow-xl w-full max-w-md">
-        <h2 className="text-2xl text-gray font-bold text-center mb-6">Profil</h2>
-        
-            <div className="flex items-center justify-center mb-6">
-              <div className="relative">
-                <img
-                  src="/img/auto.png"
-              alt="User Icon"
-              className="w-24 h-24 rounded-full border-4 border-gray-700"
-            />
-          </div>
-        </div>
-        
-        <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center">
       <button
         onClick={handleButtonClick}
         className="w-full bg-gray-700 text-gray border-[1px] hover:bg-gray-300 hover:text-black border-gray py-2 rounded mb-6 hover:bg-gray-600"
@@ -46,6 +31,26 @@ function UserProfileEdit() {
         style={{ display: 'none' }}
       />
     </div>
+  );
+};
+
+function UserProfileEdit() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
+      <div className="bg-white text-white p-6 rounded-lg shadow-xl w-full max-w-md">
+        <h2 className="text-2xl text-gray font-bold text-center mb-6">Profil</h2>
+        
+        <div className="flex items-center justify-center mb-6">
+          <div className="relative">
+            <img
+              src="/img/auto.png"
+              alt="User Icon"
+              className="w-24 h-24 rounded-full border-4 border-gray-700"
+            />
+          </div>
+        </div>
+        
+        <ImageSelector />
 
         {/* Form Section */}
         <form>
@@ -95,7 +100,7 @@ function UserProfileEdit() {
             </button>
             <button
               type="submit"
-              className="bg-blue hover:bg-blue500 text-white py-2 px-4 rounded hover:bg-blue-600 w-[50%]"
+              className="bg-blue500 hover:bg-blue-600 text-white py-2 px-4 rounded w-[50%]"
             >
               Se connecter
             </button>
@@ -104,7 +109,6 @@ function UserProfileEdit() {
       </div>
     </div>
   );
-};
-
+}
 
 export default UserProfileEdit;
