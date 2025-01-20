@@ -1,5 +1,7 @@
 import React from 'react'
 import ProduitCard from '../ProduitCard'
+import { Link } from 'react-router-dom'
+
 
 function ProduitPage() {
   return (
@@ -11,10 +13,12 @@ function ProduitPage() {
   <div className='flex flex-col w-[70%] h-[400px] ml-32'>
     <h1 className='text-2xl font-semibold mx-3 my-3'>Tous nos produits</h1>
     <div className='flex flex-row flex-wrap'>
+    <Link to="produit-show">
     <ProduitCard 
     src="../../public/img/gants-nitrile-chirurgicaux.png"
     titre="Gants plastiques"
     />
+    </Link>
     <ProduitCard
     src="../../public/img/tension.jpeg"
     titre="Tensionmètre"

@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
-
+import HomeCard from './HomeCard';
+import Produits from './Produits';
+import ServProd from './ServprodCard';
+import About from './AboutComponent';
+import Avantage from './Advantage';
+import Footer from './page/Footer';
 function Navbar() {
     const [isOpen , setIsOpen] = useState(false);
   return (
+    <div className='flex flex-col'>
     <nav className='bg-white shadow-md'>
         <div className='container mx-auto flex items-center justify-between py-4 px-6'>
             <div className='font-bold text-gray-700 border border-gray-300 px-4 py-2'>
@@ -19,11 +25,11 @@ function Navbar() {
                     isOpen ? "block" : "hidden"
                  } md:flex md:space-x-6 text-gray-700 font-semibold`}
             >
-                <a href='' className='hover:text-blue block py-2 md:py-0'>Produits</a>
-                <a href='' className='hover:text-blue block py-2 md:py-0'>Services</a>
-                <a href='' className='hover:text-blue block py-2 md:py-0'>A propos</a>
-                <a href='' className='hover:text-blue block py-2 md:py-0'>Avantages</a>
-                <a href='' className='hover:text-blue block py-2 md:py-0'>Contacter-nous</a>
+                <a href='#produit' className='hover:text-blue block py-2 md:py-0'>Produits</a>
+                <a href='#service' className='hover:text-blue block py-2 md:py-0'>Services</a>
+                <a href='#about' className='hover:text-blue block py-2 md:py-0'>A propos</a>
+                <a href='#avantage' className='hover:text-blue block py-2 md:py-0'>Avantages</a>
+                <a href='#footer' className='hover:text-blue block py-2 md:py-0'>Contacter-nous</a>
             </div>
             <div className={`border-l-2 border-blue pl-5 md:block ${isOpen ? "block" : "hidden"}`}>
                 <button className='text-gray-700 hover:text-blue-500'>
@@ -39,6 +45,13 @@ function Navbar() {
             </div>
         </div>
     </nav>
+    <HomeCard/>
+    <div id="produit"><Produits/></div>
+    <div id="service"><ServProd/></div>
+    <div id="about"><About/></div>
+    <div id="avantage"><Avantage/></div>
+    <div id="footer"><Footer/></div>
+    </div>
   )
 }
 

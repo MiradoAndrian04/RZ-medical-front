@@ -26,8 +26,12 @@ const HomeCard = () => {
   };
   
 const [isOpen , setIsOpen] = useState(false);
+
+// Animation
+
+
   return (
-    <div>
+    <div className="mt-[5px]">
       <div className="slider-container  relative overflow-hidden">
         {/* <h2>Auto Play {"&"} Pause with buttons</h2> */}
 
@@ -38,7 +42,6 @@ const [isOpen , setIsOpen] = useState(false);
         >
           <div className="bg-[url('/img/equiper-pharmacie-avec-rdm.jpg')] bg-no-repeat bg-cover w-[100vw] h-[40vw]  relative">
             <div className="absolute w-[100vw] h-full bg-black opacity-35 z-10"></div>
-
             <h1 className="titreHome text-white text-[45px] max-lg:text-2xl font-semibold italic absolute left-[5%] top-[15%] leading-[1.5] w-[55%] max-sm:w-[90%]">
               Bienvenue sur RZ Medical, <br />votre partenaire en équipement médical
             </h1>
@@ -47,14 +50,14 @@ const [isOpen , setIsOpen] = useState(false);
             <div className="absolute w-[100vw] h-full bg-black opacity-35 z-10"></div>
 
             <h1 className="titreHome text-white text-[45px] max-lg:text-2xl font-semibold italic absolute left-[5%] top-[15%] leading-[1.5] w-[55%] max-sm:w-[90%]">
-            Découvrez une large gamme d’équipements médicaux pour accompagner vos soins.
+            Découvrez une large gamme <br /> d’équipements médicaux pour <br />accompagner vos soins.
             </h1>
           </div>
           <div className="bg-[url('/img/materiel.jpg')] bg-no-repeat bg-cover w-[100vw] h-[40vw] relative">
             <div className="absolute w-[100vw] h-full bg-black opacity-35 z-10"></div>
 
             <h1 className="titreHome text-white text-[45px] max-lg:text-2xl font-semibold italic absolute left-[5%] top-[15%] leading-[1.5] w-[55%] max-sm:w-[90%]">
-            Nous sommes là pour répondre à vos besoins avec des solutions fiables et adaptées.
+            Nous sommes là pour répondre à vos <br />besoins avec des solutions fiables et <br />adaptées.
             </h1>
           </div>
         </Slider>
