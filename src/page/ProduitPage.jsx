@@ -3,6 +3,7 @@ import ProduitCard from "../components/ProduitCard";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import { faCaretSquareDown } from "@fortawesome/free-regular-svg-icons";
+import { Outlet } from "react-router-dom";
 
 function ProduitPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -109,38 +110,8 @@ function ProduitPage() {
       </div>
       <div className="flex flex-row ">
         {/* <div className="flex flex-col flex-1 h-[400px] bg-white "> */}
-        <div className="flex w-full gap-1 p-2 pt-0 flex-row flex-wrap bg-[#f0f0f0] rounded-lg ">
-          <ProduitCard
-            src="../../public/img/gants-nitrile-chirurgicaux.png"
-            titre="Gants plastiques"
-            className={"w-[24.5%] max-md:w-[32.8%] max-sm:w-[48.5%]"}
-          />
-          <ProduitCard
-            src="../../public/img/tension.jpeg"
-            titre="Tensionmètre"
-            className={"w-[24.5%] max-md:w-[32.8%] max-sm:w-[48.5%]"}
-          />
-          <ProduitCard
-            src="../../public/img/Thermomètre.jpeg"
-            titre="Thermomètre"
-            className={"w-[24.5%] max-md:w-[32.8%] max-sm:w-[48.5%]"}
-          />
-          <ProduitCard
-            src="../../public/img/gants-nitrile-chirurgicaux.png"
-            titre="Gants plastiques Gants plastiques"
-            className={"w-[24.5%] max-md:w-[32.8%] max-sm:w-[48.5%]"}
-          />
-          <ProduitCard
-            src="../../public/img/tension.jpeg"
-            titre="Tensionmètre"
-            className={"w-[24.5%] max-md:w-[32.8%] max-sm:w-[48.5%]"}
-          />
-          <ProduitCard
-            src="../../public/img/Thermomètre.jpeg"
-            titre="Thermomètre"
-            className={"w-[24.5%] max-md:w-[32.8%] max-sm:w-[49.5%]"}
-          />
-        </div>
+        <Outlet/>
+
         {/* </div> */}
         <div className="flex flex-col p-3 pt-0 w-[30%] h-[500px] max-lg:hidden">
           <div className="w-full h-auto border-[1px] border-grey-300 rounded-lg">

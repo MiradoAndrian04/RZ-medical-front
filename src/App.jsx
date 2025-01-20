@@ -6,6 +6,7 @@ import Login from "./Admin/Login";
 import PrivateRoute from "./components/PrivateRoute";
 import ProduitPage from "./page/ProduitPage";
 import ShowProduit from "./page/ShowProduit";
+import ProduitsAll from "./components/ProduitsAll";
 
 function App() {
   return (
@@ -13,11 +14,14 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Body />} />
-          <Route path="/produits" element={<ProduitPage />} />
+          <Route path="/produits" element={<ProduitPage />}>
+            <Route index element={<ProduitsAll />} />
+            <Route path="/produits/:id" element={<ShowProduit />} />
+          </Route>
           <Route path="/produits/:id" element={<ShowProduit />} />
           <Route path="/login" element={<Login />} />
           <Route element={<PrivateRoute/>}>
-            <Route path= "/admin" element={<Body />} />
+            <Route path= "/admin" element={<ProduitPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
