@@ -70,7 +70,7 @@ const UserProfileEdit = () => {
         <form>
           <div className="mb-4">
             <label className="block text-black text-sm font-semibold mb-1" htmlFor="username">
-              Nom d'utilisateur <span className="text-red-500">*</span>
+              Nom d&apos;utilisateur <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
