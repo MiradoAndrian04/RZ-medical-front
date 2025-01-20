@@ -1,10 +1,17 @@
 import './App.css'
 import './index.css'
-import Advantages from './components/Advantage'
+import ContactPage from './components/page/contactpage'
+import Footer from './Footer'
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 function App() {
   return (
-      <Advantages/>
+    <>
+    
+    <ContactPage/>
+    <Footer/>
+    </>
   )
 }
 export default App
