@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import HomeCard from './HomeCard';
 import Produits from './Produits';
 import ServProd from './ServprodCard';
@@ -31,8 +32,10 @@ function Navbar() {
                 <a href='#avantage' className='hover:text-blue block py-2 md:py-0'>Avantages</a>
                 <a href='#footer' className='hover:text-blue block py-2 md:py-0'>Contacter-nous</a>
             </div>
+            
             <div className={`border-l-2 border-blue pl-5 md:block ${isOpen ? "block" : "hidden"}`}>
-                <button className='text-gray-700 hover:text-blue-500'>
+            <Link to="/produit">
+            <button className='text-gray-700 hover:text-blue-500'>
                     <svg xmlns='"http://www.w3.org/2000/svg'  fill='none' viewBox='0 0 24 24' strokeWidth= '2' stroke='currentColor' className='w-6 h-6'>
                         <path
                             strokeLinecap='round'
@@ -41,6 +44,7 @@ function Navbar() {
                         />
                     </svg>
                 </button>
+                </Link>
             </div>
             </div>
         </div>
