@@ -11,13 +11,15 @@ import Footer from './components/page/Footer'
 import Login from './Admin/Login'
 import Prod from '../src/components/page/ProduitPage'
 import ProdShow from './components/page/ShowProduit'
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar'
 import Contact from './components/page/ContactPage'
+import Profil from './components/page/Profil'
 
 
 function App() {
   return (
     <>
+    <Profil/>
     {/* <BrowserRouter>
     <Routes>
       <Route path="/" element={<Navbar/>}/>
