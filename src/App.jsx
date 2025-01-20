@@ -17,8 +17,8 @@ import Contact from './components/page/ContactPage'
 
 function App() {
   return (
-    <> 
-    <BrowserRouter>
+    <>
+    {/* <BrowserRouter>
     <Routes>
       <Route path="/" element={<Navbar/>}/>
       <Route path="/produit-expo" element={<Produits/>}/>
@@ -31,7 +31,7 @@ function App() {
       <Route path="/produit/produit-show" element={<ProdShow/>}/>
       <Route path="/contact" element={<Contact/>}/>
     </Routes>
-    </BrowserRouter>
+    </BrowserRouter> */}
     </>
   )
 }
