@@ -3,6 +3,7 @@
 
 import { faFileImage } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ProductCategorySelector from "./ProductCategorySelector";
 
 const CreateFormation = () => {
   return (
@@ -15,23 +16,7 @@ const CreateFormation = () => {
           <p className="text-blue">Ajouter une image</p>
         </div>
         <div className="w-[100%]">
-          <label
-            htmlFor="category"
-            className="block mb-2 text-sm font-medium text-gray-900"
-          >
-            Categorie
-          </label>
-          <select
-            id="category"
-            placeholder="Categorie"
-            className=" border  border-grey text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 "
-          >
-            <option selected>Choisire votre categorie</option>
-            <option value="US">United States</option>
-            <option value="CA">Canada</option>
-            <option value="FR">France</option>
-            <option value="DE">Germany</option>
-          </select>
+          <ProductCategorySelector/>
         </div>
         <div className="w-[100%]">
           <label

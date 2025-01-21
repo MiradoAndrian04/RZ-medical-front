@@ -1,26 +1,39 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Combobox } from '@headlessui/react';
 
 const ProductCategorySelector = () => {
   const [selectedCategory, setSelectedCategory] = useState('Ordinateurs');
   const [query, setQuery] = useState('');
-
-  const categories = [
+  const [categories, setCategories] = useState([
     'Ordinateurs', 'Smartphones', 'Tablettes', 'Télévisions', 'Appareils photo', 'Casques audio', 'Montres connectées', 'Imprimantes',
     'Claviers', 'Souris', 'Composants PC', 'Disques durs externes', 'Cartes graphiques', 'Alimentations', 'Écrans', 'Projecteurs',
     'Accessoires de bureau', 'Enceintes', 'Drones', 'Consoles de jeux', 'Jeux vidéo', 'Câbles et adaptateurs', 'Routeurs', 'Logiciels'
-    // Add more categories as needed
-  ];
+  ]);
+
+  // Fonction pour normaliser le texte (ignorer les accents et majuscules)
+  const normalizeText = (text) => {
+    return text
+      .normalize('NFD') // Normalise les caractères accentués
+      .replace(/[\u0300-\u036f]/g, '') // Supprime les accents
+      .toLowerCase(); // Convertit en minuscule
+  };
 
   const filteredCategories =
     query === ''
       ? categories
       : categories.filter((category) =>
-          category.toLowerCase().includes(query.toLowerCase())
+          normalizeText(category).includes(normalizeText(query))
         );
 
+  const handleAddCategory = () => {
+    if (query && !categories.some((category) => normalizeText(category) === normalizeText(query))) {
+      setCategories([...categories, query]);
+      setSelectedCategory(query); // Set the newly added category as selected
+    }
+  };
+
   return (
-    <div className="w-full max-w-xs mx-auto mt-10">
+    <div className="w-full  mx-auto mt-10">
       <Combobox value={selectedCategory} onChange={setSelectedCategory}>
         <div className="relative">
           <Combobox.Input
@@ -53,14 +66,20 @@ const ProductCategorySelector = () => {
                   key={index}
                   value={category}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-2 px-4 ${
-                      active ? 'bg-blue-500 text-white' : 'text-gray-900'
-                    }`
+                    `relative cursor-default select-none py-2 px-4 ${active ? 'bg-blue-500 text-black' : 'text-gray-900'}`
                   }
                 >
                   {category}
                 </Combobox.Option>
               ))
+            )}
+            {query && !categories.some((category) => normalizeText(category) === normalizeText(query)) && (
+              <div
+                className="relative cursor-pointer select-none py-2 px-4 text-blue-500"
+                onClick={handleAddCategory}
+              >
+                Ajouter la catégorie "{query}"
+              </div>
             )}
           </Combobox.Options>
         </div>
