@@ -1,5 +1,3 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
 import HomeCard from '../components/HomeCard'
 import Produits from '../components/Produits'
 import ServProd from '../components/ServprodCard'

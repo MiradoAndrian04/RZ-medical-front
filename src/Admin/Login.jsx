@@ -37,7 +37,7 @@ const Login = () => {
       }
       localStorage.setItem("admin-user", JSON.stringify(data));
       setUser(data);
-      navigate("/admin/produits");
+      navigate("/products");
     } catch(error){
       setLoading(false);
       console.log("error :", error);
@@ -107,11 +107,11 @@ const Login = () => {
         </form>
 
         {/* Forgot Password */}
-        <div className="text-center mt-6">
+        {/* <div className="text-center mt-6">
           <a href="#" className="text-sm text-blue-500 hover:underline">
             Mot de passe oublié ?
           </a>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 const AboutComponent = () => {
   return (
-    <div className="md:bg-[url('/img/about.png')] bg-no-repeat bg-cover bg-center relative mt-20 max-md:mt-10 w-full h-[72vh] max-md:h-auto">
+    <div id="about" className="scroll-mt-[65px] md:bg-[url('/img/about.png')] bg-no-repeat bg-cover bg-center relative mt-20 max-md:mt-10 w-full h-[72vh] max-md:h-auto">
       <div className="w-full h-full bg-[#0870CF] opacity-30 max-md:hidden"></div>
         <h1 className="text-5xl max-md:text-3xl max-md:text-center md:w-[300px] font-bold max-sm:p-3 sm:p-3 text-[#3584C7] md:text-white  md:absolute top-[30%] left-[8%] md:translate-y-[-50%]">
           A propos de RZ Medical

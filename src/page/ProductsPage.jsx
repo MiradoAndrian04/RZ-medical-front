@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { faCaretSquareDown } from "@fortawesome/free-regular-svg-icons";
 import { Outlet } from "react-router-dom";
 
-function ProduitPage() {
+function ProductsPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null); // Ref pour le menu
 
@@ -26,7 +26,7 @@ function ProduitPage() {
   }, []);
   return (
     <div className="flex flex-col w-full h-auto bg-white">
-      <div className="w-full h-[18vw] ">
+      <div className="w-full h-[16vw] ">
         <img
           src="../../public/img/RZ.jpeg"
           alt="Example"
@@ -41,6 +41,7 @@ function ProduitPage() {
               type="text"
               placeholder="Rechercher ..."
               className="w-full py-2 rounded-lg outline-none pl-9  px-3 border-[1px] border-grey-300"
+              autoFocus
             />
             <FontAwesomeIcon
               icon={faSearch}
@@ -48,16 +49,6 @@ function ProduitPage() {
               className="absolute left-3 bottom-[13px] text-gray"
             />
           </div>
-          {/* <select
-          id="countries"
-          className=" max-lg:block hidden bg-gray-50 border-b border-grey-300 text-gray text-sm  focus:ring-blue-500 focus:border-blue-500 p-2.5 outline-none w-[150px]  hover:cursor-pointer hover:bg-slate-100 rounded-t-lg "
-          >
-          <option selected>Categories</option>
-          <option value="US">Analgesique & Antipyretique</option>
-          <option value="CA">Antibiotiques</option>
-          <option value="FR">Antihistaminiques</option>
-          <option value="DE">Cardiovasculaires</option>
-        </select> */}
           <div className=" menu-category lg:hidden relative w-10">
             <button
               className=" bg-gray-50 border-b border-grey-300 p-2.5 rounded-lg hover:cursor-pointer hover:bg-slate-100"
@@ -78,25 +69,25 @@ function ProduitPage() {
               >
                 <ul className="flex flex-col">
                   <li
-                    className="px-6 py-3 text-center hover:bg-slate-300  hover:cursor-pointer"
+                    className="px-6 py-3 text-center hover:bg-slate-300 text-gray hover:cursor-pointer"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Analgesique & Antipyretique
                   </li>
                   <li
-                    className="px-6 py-3 text-center hover:bg-slate-300  hover:cursor-pointer"
+                    className="px-6 py-3 text-center hover:bg-slate-300 text-gray hover:cursor-pointer"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Antibiotiques
                   </li>
                   <li
-                    className="px-6 py-3 text-center hover:bg-slate-300  hover:cursor-pointer"
+                    className="px-6 py-3 text-center hover:bg-slate-300 text-gray hover:cursor-pointer"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Antihistaminiques
                   </li>
                   <li
-                    className="px-6 py-3 text-center hover:bg-slate-300  hover:cursor-pointer"
+                    className="px-6 py-3 text-center hover:bg-slate-300 text-gray hover:cursor-pointer"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Cardiovasculaires
@@ -154,4 +145,4 @@ function ProduitPage() {
   );
 }
 
-export default ProduitPage;
+export default ProductsPage;

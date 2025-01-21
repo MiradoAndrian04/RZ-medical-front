@@ -9,7 +9,7 @@ function ServprodCard() {
   };
 
   return (
-    <div className="flex flex-col">
+    <div  className="flex flex-col">
       <motion.div
         variants={{
           hidden: { opacity: 0 },
@@ -64,7 +64,7 @@ function ServprodCard() {
         />
       </motion.div>
 
-      <div className="flex flex-col max-w-[1160px] w-full  max-md:p-3 h-auto mt-[7%] mx-auto">
+      <div id="services" className=" scroll-mt-20 flex flex-col max-w-[1160px] w-full  max-md:p-3 h-auto mt-[7%] mx-auto">
         <h1 className="flex justify-center text-[35px] text-blue font-semibold">
           Nos services
         </h1>

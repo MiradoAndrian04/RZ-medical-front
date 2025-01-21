@@ -1,22 +1,44 @@
 import { useState } from "react";
-import HomeCard from "./HomeCard";
-import Produits from "./Produits";
-import ServProd from "./ServprodCard";
-import About from "./AboutComponent";
-import Avantage from "./Advantage";
-import Footer from "./Footer";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import userAtom from "../atoms/userAtom";
+import { useRecoilValue } from "recoil";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 function Navbar() {
   //   const [isOpen, setIsOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const user = useRecoilValue(userAtom);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleScroll = (id) => {
+    if (location.pathname === "/") {
+      // Si on est déjà sur la page d'accueil, scroll directement
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // Si on n'est pas sur la page d'accueil, redirige et scroll après
+      navigate("/");
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 300); // Délai pour attendre que la page soit rendue
+    }
+  };
 
   // Fonction pour ouvrir/fermer le menu mobile
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   return (
-    <div className="flex flex-col">
-      <nav className="bg-white text-gray p-4 fixed w-full z-50">
+    <div className=" sticky top-0 flex flex-col z-50">
+      <nav className="bg-white text-gray p-4  w-full">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
           {/* Logo */}
           <div className="text-2xl font-bold">
@@ -45,88 +67,197 @@ function Navbar() {
             </button>
           </div>
 
-          {/* Menu Desktop */}
-          {/* <div className="flex gap-5 max-md:flex-row-reverse"> */}
-          <div className="hidden md:flex space-x-6">
-            <a href="#produit" className="hover:text-blue block py-2 md:py-0">
-              Produits
-            </a>
-            <a href="#service" className="hover:text-blue block py-2 md:py-0">
-              Services
-            </a>
-            <a href="#about" className="hover:text-blue block py-2 md:py-0">
-              A propos
-            </a>
-            <a href="#avantage" className="hover:text-blue block py-2 md:py-0">
-              Avantages
-            </a>
-            <a href="#footer" className="hover:text-blue block py-2 md:py-0">
-              Contacter-nous
-            </a>
-          </div>
-          <div className={` searchButton border-l-2 border-blue pl-3 md:block`}>
-            <Link to="/produit">
-              <button className="text-gray-700 hover:text-blue-500">
-                <svg
-                  xmlns='"http://www.w3.org/2000/svg'
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="currentColor"
-                  className="w-6 h-6"
+          {user ? (
+            <>
+              <div className="hidden md:flex space-x-6">
+                <Link to="/" className="hover:text-blue block py-2 md:py-0">
+                  Accueil
+                </Link>
+                <Link
+                  to="/products"
+                  className="hover:text-blue block py-2 md:py-0"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-4.35-4.35m2.85-6.15a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z "
-                  />
-                </svg>
-              </button>
-            </Link>
-          {/* </div> */}
-          </div>
+                  Produits
+                </Link>
+                <Link
+                  to="/add-product"
+                  className="hover:text-blue block py-2 md:py-0"
+                >
+                  Ajout de produit
+                </Link>
+              </div>
+              <Menu
+                as="div"
+                className=" hidden md:inline-block relative  text-left"
+              >
+                <MenuButton className="bg-pink-800 text-white font-bold w-10 h-10 flex items-center justify-center rounded-full">
+                  RZ
+                </MenuButton>
+                <MenuItems
+                  transition
+                  className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                >
+                  <div className="py-1">
+                    <MenuItem>
+                      <Link
+                        to="account-settings"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-lightblue data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
+                      >
+                        <FontAwesomeIcon
+                          icon={faCog}
+                          size="sm"
+                          className="mr-2"
+                        />
+                        Paramètres du compte
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <p className="block px-4 py-2 text-sm text-gray-700 hover:bg-lightblue data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none">
+                        <FontAwesomeIcon
+                          icon={faSignOutAlt}
+                          size="sm"
+                          className="mr-2"
+                        />
+                        Déconnexion
+                      </p>
+                    </MenuItem>
+                  </div>
+                </MenuItems>
+              </Menu>
+            </>
+          ) : (
+            <>
+              <div className="hidden md:flex space-x-6">
+                <Link
+                  to="/products"
+                  className="hover:text-blue block py-2 md:py-0"
+                >
+                  Produits
+                </Link>
+                <ul className="flex space-x-6">
+
+                  <li
+                    onClick={() => handleScroll("services")}
+                    className="cursor-pointer hover:text-blue"
+                  >
+                    Services
+                  </li>
+                  <li
+                    onClick={() => handleScroll("about")}
+                    className="cursor-pointer hover:text-blue"
+                    >
+                    Apropos
+                  </li>
+                  <li
+                    onClick={() => handleScroll("avantage")}
+                    className="cursor-pointer hover:text-blue"
+                    >
+                    Avantages
+                  </li>
+                    </ul>
+                <Link to="/contact">Contacter-nous</Link>
+              </div>
+              <div
+                className={` searchButton border-l-2 border-blue pl-3 md:block`}
+              >
+                <Link to="/produits">
+                  <button className="text-gray-700 hover:text-blue-500">
+                    <svg
+                      xmlns='"http://www.w3.org/2000/svg'
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="2"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 21l-4.35-4.35m2.85-6.15a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z "
+                      />
+                    </svg>
+                  </button>
+                </Link>
+                {/* </div> */}
+              </div>
+            </>
+          )}
         </div>
 
         {/* Menu mobile (affiché si isMenuOpen est vrai) */}
-          <div
-            className={`md:hidden ${
-              isMenuOpen ? "block" : "hidden"
-            } absolute top-16 left-0 w-full z-50 bg-white text-gray p-4`}
-          >
-            <a href="#produit" className="hover:text-blue block py-2 md:py-0">
-              Produits
-            </a>
-            <a href="#service" className="hover:text-blue block py-2 md:py-0">
-              Services
-            </a>
-            <a href="#about" className="hover:text-blue block py-2 md:py-0">
-              A propos
-            </a>
-            <a href="#avantage" className="hover:text-blue block py-2 md:py-0">
-              Avantages
-            </a>
-            <a href="#footer" className="hover:text-blue block py-2 md:py-0">
-              Contacter-nous
-            </a>
-          </div>
-      </nav>
+        <div
+          className={`md:hidden ${
+            isMenuOpen ? "block" : "hidden"
+          } absolute top-16 left-0 w-full z-50 bg-white text-gray p-4`}
+        >
+          {user ? (
+            <>
+              <Link to="/" className="hover:text-blue block py-2 md:py-0">
+                Accueil
+              </Link>
 
-      <HomeCard />
-      <div id="produit">
-        <Produits />
-      </div>
-      <div id="service">
-        <ServProd />
-      </div>
-      <div id="about">
-        <About />
-      </div>
-      <div id="avantage">
-        <Avantage />
-      </div>
-      <div id="footer">
-        <Footer />
-      </div>
+              <Link
+                to="/products"
+                className="hover:text-blue block py-2 md:py-0"
+              >
+                Produits
+              </Link>
+              <Link
+                to="/add-product"
+                className="hover:text-blue block py-2 md:py-0"
+              >
+                Ajout de produit
+              </Link>
+              <hr className="my-3" />
+              <Link
+                to="account-settings"
+                className="hover:text-blue block py-2 md:py-0"
+              >
+                <FontAwesomeIcon icon={faCog} size="sm" className="mr-2" />
+                Paramètres du compte
+              </Link>
+              <p className="hover:text-blue block py-2 md:py-0">
+                <FontAwesomeIcon
+                  icon={faSignOutAlt}
+                  size="sm"
+                  className="mr-2"
+                />
+                Deconnection
+              </p>
+            </>
+          ) : (
+            <>
+              <Link to="/products" className="hover:text-blue block py-2 md:py-0">
+                Produits
+              </Link>
+              <ul className="flex flex-col">
+              <li
+                    onClick={() => handleScroll("services")}
+                    className="cursor-pointer hover:text-blue block py-2 md:py-0"
+                  >
+                    Services
+                  </li>
+                  <li
+                    onClick={() => handleScroll("about")}
+                    className="cursor-pointer hover:text-blue block py-2 md:py-0"
+                  >
+                    Apropos
+                  </li>
+                  <li
+                    onClick={() => handleScroll("avantage")}
+                    className="cursor-pointer hover:text-blue block py-2 md:py-0"
+                  >
+                    Avantages
+                  </li>
+                    </ul>
+                
+              <Link to="/contact" className="hover:text-blue block py-2 md:py-0">
+                Contacter-nous
+              </Link>
+            </>
+          )}
+        </div>
+      </nav>
     </div>
   );
 }

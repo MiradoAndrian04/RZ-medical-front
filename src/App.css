@@ -3,6 +3,6 @@ body{
     background: #f0f0f0;
 }
 
-/* .menu-category{
-    display:none;
-} */
+li{
+    list-style: none;
+}

@@ -25,13 +25,13 @@ const HomeCard = () => {
     // pauseOnHover: true
   };
   
-const [isOpen , setIsOpen] = useState(false);
+// const [isOpen , setIsOpen] = useState(false);
 
 // Animation
 
 
   return (
-    <div className="mt-[65px]">
+    <div className="">
       <div className="slider-container  relative overflow-hidden">
         {/* <h2>Auto Play {"&"} Pause with buttons</h2> */}
 
