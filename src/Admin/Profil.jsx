@@ -17,7 +17,7 @@ const ImageSelector = ({ onImageChange }) => {
 
   return (
     <div className="flex flex-col items-center">
-      <button
+      <button 
         onClick={handleButtonClick}
         className="w-full bg-gray-700 text-gray border-[1px] hover:bg-gray-300 hover:text-black border-gray py-2 rounded mb-6 hover:bg-gray-600"
       >

@@ -1,12 +1,11 @@
-// import { TbVideoPlus } from "react-icons/tb";
-// import Button from "../components/Button";
-
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { faFileImage } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ProductCategorySelector from "./ProductCategorySelector";
-import { useState } from "react";
 
-const AddProduct = () => {
+const EditProduct = () => {
+  const { id } = useParams();
   const [formData, setFormData] = useState({
     name: '',
     price: '',
@@ -15,7 +14,36 @@ const AddProduct = () => {
     image: null,
     previewImage: null,
   });
-  // const [previewImage, setPreviewImage] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(`/api/post/products/${id}`);
+        if (!response.ok) {
+          throw new Error('Erreur lors de la récupération du produit');
+        }
+        const data = await response.json();
+        const categoryResponse = await fetch(`/api/post/categories/${data.category}`);
+        if (!categoryResponse.ok) {
+          throw new Error('Erreur lors de la récupération de la catégorie');
+        }
+        const categoryData = await categoryResponse.json();
+        setFormData({
+          name: data.name,
+          price: data.price,
+          category: categoryData.name, // Utilisez le nom de la catégorie
+          description: data.description,
+          image: null,
+          previewImage: data.image ? `${import.meta.env.VITE_APP_API_URL}${data.image}` : null,
+        });
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -23,77 +51,72 @@ const AddProduct = () => {
       ...prev,
       [name]: value,
     }));
-    
   };
+
   const handleFileChange = (e) => {
-    const file = e.target.files[0]; // Récupère le premier fichier sélectionné
+    const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
 
       reader.onload = () => {
         setFormData((prev) => ({
           ...prev,
-          image: file, // Stocke le fichier
-          previewImage: reader.result, // Stocke l'URL de prévisualisation
+          image: file,
+          previewImage: reader.result,
         }));
       };
-      reader.readAsDataURL(file); // Convertit le fichier en URL
+      reader.readAsDataURL(file);
     }
   };
 
   const handleCategoryChange = (category) => {
-    setFormData({
-      ...formData,
-      category: category, // Met à jour la catégorie
-    });
-    
+    setFormData((prev) => ({
+      ...prev,
+      category: category,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
+    // Vérifiez que la catégorie est définie
+    if (!formData.category) {
+      alert('Veuillez sélectionner une catégorie.');
+      return;
+    }
+
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
       if (key === 'image' && formData[key]) {
-        formDataToSend.append(key, formData[key]); // Ajoute le fichier
+        formDataToSend.append(key, formData[key]);
       } else {
-        formDataToSend.append(key, formData[key]); // Ajoute les autres champs
+        formDataToSend.append(key, formData[key]);
       }
     });
-  console.log(formDataToSend);
-  
+
     try {
-      const response = await fetch('/api/post/products/create', {
-        method: 'POST',
+      const response = await fetch(`/api/post/products/${id}/update`, {
+        method: 'PATCH',
         body: formDataToSend,
       });
-  
-      if (response.ok) {
-        alert('Produit ajouté avec succès');
-        setFormData({
-          name: '',
-          price: '',
-          category: '',
-          description: '',
-          image: null,
-          previewImage: null,
-        });
-      } else {
-        alert('Erreur lors de l’ajout du produit');
-      }
 
+      if (response.ok) {
+        alert('Produit modifié avec succès');
+        navigate(`/products/${id}`);
+      } else {
+        alert('Erreur lors de la modification du produit');
+      }
     } catch (error) {
       console.error('Erreur:', error);
       alert('Erreur de connexion au serveur');
     }
   };
-  
-  
+
   return (
     <div className="w-[100%] h-auto flex items-center my-5">
       <form className="w-[800px] border-[1px] items-center border-grey rounded-lg mx-auto flex flex-col p-5 gap-3 shadow-md"
         onSubmit={handleSubmit}>
-        <h1 className="font-semibold text-xl text-blue">Ajouter un produit</h1>
+        <h1 className="font-semibold text-xl text-blue">Modifier le produit</h1>
         <div className="flex flex-wrap max-md:flex-col w-full justify-between mt-5">
           <div className="w-[45%] mx-auto ">
             <label
@@ -117,13 +140,11 @@ const AddProduct = () => {
                 </>
               )}
             </label>
-            {/* Champ input caché pour le fichier */}
             <input
               id="image"
               type="file"
               accept="image/*"
               onChange={handleFileChange}
-              
               className="hidden"
             />
           </div>
@@ -178,7 +199,8 @@ const AddProduct = () => {
                 Categorie
               </label>
               <ProductCategorySelector 
-              onCategoryChange={handleCategoryChange}
+                selectedCategory={formData.category}
+                onCategoryChange={handleCategoryChange}
               />
             </div>
           </div>
@@ -195,7 +217,7 @@ const AddProduct = () => {
             name="description"
             rows="8"
             className="block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-grey focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Description du cours..."
+            placeholder="Description du produit..."
             onChange={handleInputChange}
             value={formData.description}
           ></textarea>
@@ -207,7 +229,7 @@ const AddProduct = () => {
               "bg-blue hover:bg-cyan-800 p-3 px-[60px] text-white mt-0 rounded-lg w-full"
             }
           >
-            Ajouter
+            Enregistrer
           </button>
         </div>
       </form>
@@ -215,4 +237,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;

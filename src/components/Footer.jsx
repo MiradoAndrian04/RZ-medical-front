@@ -1,15 +1,14 @@
-import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faWhatsapp, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 function Footer() {
   return (
     <footer className="bg-darkgray text-white py-8">
-      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
         
         {/* Company Info Section */}
         <div>
-          <h2 className="text-2xl font-bold mb-4">RZ Medical</h2>
+          <h2 className="text-2xl font-bold mb-4">Eray Digital</h2>
           <p className="text-gray-400">
           Nous fournissons les meilleurs services à nos clients. <br /> Votre satisfaction est notre priorité.
           </p>

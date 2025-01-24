@@ -4,7 +4,6 @@ function ProduitCard({ titre, src, className }) {
     ;
   return (
     <div className ={`${defaultClassName} ${className || ''}`}>
-      <a href="#">
         <div
           className='w-full aspect-square rounded-lg bg-center bg-cover bg-no-repeat border-[1px] border-gray-100'
           style={{ backgroundImage: `url(${src})` }}
@@ -12,7 +11,6 @@ function ProduitCard({ titre, src, className }) {
         <div className="flex text-[17px] font-semibold mt-3 text-gray justify-center text-center">
           {titre}
         </div>
-      </a>
     </div>
   );
 }

@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import userAtom from "../atoms/userAtom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
@@ -9,6 +9,8 @@ function Navbar() {
   //   const [isOpen, setIsOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const user = useRecoilValue(userAtom);
+  const setUser = useSetRecoilState(userAtom);
+  const menuRef = useRef(null);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -36,6 +38,30 @@ function Navbar() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const handleLogout = () => {
+    const confirmed = window.confirm("Êtes-vous sûr de vouloir vous déconnecter ?");
+    if (confirmed) {
+      // Réinitialiser l'état de l'utilisateur
+      setUser(null);
+      // Effacer l'access token du local storage
+      localStorage.removeItem("admin-user");
+      // Rediriger vers la page de connexion
+      navigate("/login");
+    }
+  };
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setIsMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <div className=" sticky top-0 flex flex-col z-50">
       <nav className="bg-white text-gray p-4  w-full">
@@ -80,7 +106,7 @@ function Navbar() {
                   Produits
                 </Link>
                 <Link
-                  to="/add-product"
+                  to="/admin/add-product"
                   className="hover:text-blue block py-2 md:py-0"
                 >
                   Ajout de produit
@@ -100,7 +126,7 @@ function Navbar() {
                   <div className="py-1">
                     <MenuItem>
                       <Link
-                        to="account-settings"
+                        to="/admin/account-settings"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-lightblue data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
                       >
                         <FontAwesomeIcon
@@ -112,14 +138,16 @@ function Navbar() {
                       </Link>
                     </MenuItem>
                     <MenuItem>
-                      <p className="block px-4 py-2 text-sm text-gray-700 hover:bg-lightblue data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none">
+                      <button 
+                      onClick={handleLogout}
+                      className="block px-4 py-2 text-sm text-left text-gray-700 hover:bg-lightblue data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none w-full">
                         <FontAwesomeIcon
                           icon={faSignOutAlt}
                           size="sm"
                           className="mr-2"
                         />
                         Déconnexion
-                      </p>
+                      </button>
                     </MenuItem>
                   </div>
                 </MenuItems>
@@ -160,7 +188,7 @@ function Navbar() {
               <div
                 className={` searchButton border-l-2 border-blue pl-3 md:block`}
               >
-                <Link to="/produits">
+                <Link to="/products">
                   <button className="text-gray-700 hover:text-blue-500">
                     <svg
                       xmlns='"http://www.w3.org/2000/svg'
@@ -186,6 +214,7 @@ function Navbar() {
 
         {/* Menu mobile (affiché si isMenuOpen est vrai) */}
         <div
+        ref={menuRef}
           className={`md:hidden ${
             isMenuOpen ? "block" : "hidden"
           } absolute top-16 left-0 w-full z-50 bg-white text-gray p-4`}
@@ -203,27 +232,29 @@ function Navbar() {
                 Produits
               </Link>
               <Link
-                to="/add-product"
+                to="/admin/add-product"
                 className="hover:text-blue block py-2 md:py-0"
               >
                 Ajout de produit
               </Link>
               <hr className="my-3" />
               <Link
-                to="account-settings"
+                to="/admin/account-settings"
                 className="hover:text-blue block py-2 md:py-0"
               >
                 <FontAwesomeIcon icon={faCog} size="sm" className="mr-2" />
                 Paramètres du compte
               </Link>
-              <p className="hover:text-blue block py-2 md:py-0">
+              <button 
+              onClick={handleLogout}
+              className="hover:text-blue block py-2 md:py-0">
                 <FontAwesomeIcon
                   icon={faSignOutAlt}
                   size="sm"
                   className="mr-2"
                 />
                 Deconnection
-              </p>
+              </button>
             </>
           ) : (
             <>
