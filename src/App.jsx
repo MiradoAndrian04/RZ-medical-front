@@ -12,7 +12,6 @@ import { Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Body from "./page/Body";
 import ContactPage from "./page/ContactPage";
-import UserProfileEdit from "./Admin/Profil";
 import AddProduct from "./Admin/AddProduct";
 import EditProduct from "./Admin/EditProduct";
 import AccountSettings from "./Admin/AccountSettings";
