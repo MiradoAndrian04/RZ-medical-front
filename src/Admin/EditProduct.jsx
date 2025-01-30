@@ -1,41 +1,48 @@
-import React, { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { faFileImage } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ProductCategorySelector from "./ProductCategorySelector";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ProductCategorySelector from './ProductCategorySelector';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileImage } from '@fortawesome/free-regular-svg-icons';
 
 const EditProduct = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '',
-    price: '',
-    category: '',
-    description: '',
-    image: null,
+    nom_produit: "",
+    prix: "",
+    categorie_nom: "",
+    description_produit: "",
+    image_produit: null,
     previewImage: null,
   });
-  const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`/api/post/products/${id}`);
+        const response = await fetch(`/api/produit/${id}`);
         if (!response.ok) {
           throw new Error('Erreur lors de la récupération du produit');
         }
         const data = await response.json();
-        const categoryResponse = await fetch(`/api/post/categories/${data.category}`);
+        const produit = data.produit;
+
+        const categoryResponse = await fetch(`/api/categorie/${produit.categorie_id}`);
         if (!categoryResponse.ok) {
           throw new Error('Erreur lors de la récupération de la catégorie');
         }
         const categoryData = await categoryResponse.json();
+        const category = categoryData.categorie;
+
         setFormData({
-          name: data.name,
-          price: data.price,
-          category: categoryData.name, // Utilisez le nom de la catégorie
-          description: data.description,
-          image: null,
-          previewImage: data.image ? `${import.meta.env.VITE_APP_API_URL}${data.image}` : null,
+          nom_produit: produit.nom_produit,
+          prix: produit.prix,
+          categorie_nom: category.nom_categorie,
+          description_produit: produit.description_produit,
+          image_produit: null,
+          previewImage: produit.image_produit ? `${import.meta.env.VITE_APP_API_URL}storage/${produit.image_produit}` : null,
         });
       } catch (error) {
         console.error(error.message);
@@ -61,7 +68,7 @@ const EditProduct = () => {
       reader.onload = () => {
         setFormData((prev) => ({
           ...prev,
-          image: file,
+          image_produit: file,
           previewImage: reader.result,
         }));
       };
@@ -72,51 +79,61 @@ const EditProduct = () => {
   const handleCategoryChange = (category) => {
     setFormData((prev) => ({
       ...prev,
-      category: category,
+      categorie_nom: category,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Vérifiez que la catégorie est définie
-    if (!formData.category) {
-      alert('Veuillez sélectionner une catégorie.');
-      return;
-    }
-
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
-      if (key === 'image' && formData[key]) {
+      if (key === "image_produit" && formData[key]) {
         formDataToSend.append(key, formData[key]);
-      } else {
+      } else if (key !== "image_produit"){
         formDataToSend.append(key, formData[key]);
       }
     });
+    formDataToSend.append('_method', 'PUT');
 
     try {
-      const response = await fetch(`/api/post/products/${id}/update`, {
-        method: 'PATCH',
+      const token = JSON.parse(localStorage.getItem("admin-user"));
+      const response = await fetch(`http://localhost:8000/api/admin/produit/${id}`, {
+        method: "POST",
         body: formDataToSend,
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
       });
 
+      const result = await response.json();
+      console.log(result);
+      
+
       if (response.ok) {
-        alert('Produit modifié avec succès');
-        navigate(`/products/${id}`);
+        toast.success(result.message);
+        setTimeout(() => {
+          navigate(`/products/${id}`);
+        }, 1500); // Attendez 1.5 secondes avant de rediriger
       } else {
-        alert('Erreur lors de la modification du produit');
+        setErrors(result.errorsList || {});
+        toast.error(result.message);
       }
     } catch (error) {
-      console.error('Erreur:', error);
-      alert('Erreur de connexion au serveur');
+      console.error("Erreur:", error);
+      toast.error("Erreur de connexion au serveur");
     }
   };
 
   return (
     <div className="w-[100%] h-auto flex items-center my-5">
-      <form className="w-[800px] border-[1px] items-center border-grey rounded-lg mx-auto flex flex-col p-5 gap-3 shadow-md"
-        onSubmit={handleSubmit}>
-        <h1 className="font-semibold text-xl text-blue">Modifier le produit</h1>
+      <form
+        className="w-[800px] border-[1px] items-center border-grey rounded-lg mx-auto flex flex-col p-5 gap-3 shadow-md"
+        onSubmit={handleSubmit}
+        encType='multipart/form-data'
+        method='post'
+      >
+        <h1 className="font-semibold text-xl text-blue">Modifier un produit</h1>
         <div className="flex flex-wrap max-md:flex-col w-full justify-between mt-5">
           <div className="w-[45%] mx-auto ">
             <label
@@ -147,6 +164,9 @@ const EditProduct = () => {
               onChange={handleFileChange}
               className="hidden"
             />
+            {errors.image_produit && (
+              <p className="text-red-500 text-sm mt-1">{errors.image_produit[0]}</p>
+            )}
           </div>
           <div className="w-[50%] max-md:w-full max-md:mt-5">
             <div className="w-[100%]">
@@ -159,13 +179,15 @@ const EditProduct = () => {
               <input
                 type="text"
                 id="name"
-                name="name"
+                name="nom_produit"
                 className=" border border-grey text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 placeholder="Titre"
                 onChange={handleInputChange}
-                value={formData.name}
-                required
+                value={formData.nom_produit}
               />
+              {errors.nom_produit && (
+                <p className="text-red-500 text-sm mt-1">{errors.nom_produit[0]}</p>
+              )}
             </div>
             <div className="w-[100%] mt-3">
               <label
@@ -178,17 +200,20 @@ const EditProduct = () => {
                 <div className="flex items-center border border-grey rounded-md bg-white pl-3  -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-lightblue">
                   <input
                     id="price"
-                    name="price"
+                    name="prix"
                     type="text"
                     placeholder="Prix en Ariary"
                     onChange={handleInputChange}
-                    value={formData.price}
+                    value={formData.prix}
                     className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
                   />
                   <div className="grid shrink-0 grid-cols-1 focus-within:relative px-3 border-l border-grey">
                     Ariary
                   </div>
                 </div>
+                {errors.prix && (
+                  <p className="text-red-500 text-sm mt-1">{errors.prix[0]}</p>
+                )}
               </div>
             </div>
             <div className="w-[100%] mt-3">
@@ -198,10 +223,13 @@ const EditProduct = () => {
               >
                 Categorie
               </label>
-              <ProductCategorySelector 
-                selectedCategory={formData.category}
+              <ProductCategorySelector
+                selectedCategory={formData.categorie_nom}
                 onCategoryChange={handleCategoryChange}
               />
+              {errors.categorie_nom && (
+                <p className="text-red-500 text-sm mt-1">{errors.categorie_nom[0]}</p>
+              )}
             </div>
           </div>
         </div>
@@ -214,25 +242,29 @@ const EditProduct = () => {
           </label>
           <textarea
             id="description"
-            name="description"
+            name="description_produit"
             rows="8"
             className="block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-grey focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Description du produit..."
+            placeholder="Description du cours..."
             onChange={handleInputChange}
-            value={formData.description}
+            value={formData.description_produit}
           ></textarea>
+          {errors.description_produit && (
+            <p className="text-red-500 text-sm mt-1">{errors.description_produit[0]}</p>
+          )}
         </div>
         <div className="w-full">
           <button
-          type="submit"
+            type="submit"
             className={
               "bg-blue hover:bg-cyan-800 p-3 px-[60px] text-white mt-0 rounded-lg w-full"
             }
           >
-            Enregistrer
+            Modifier
           </button>
         </div>
       </form>
+      <ToastContainer position='bottom-right' pauseOnHover/>
     </div>
   );
 };

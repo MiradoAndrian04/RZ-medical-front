@@ -8,7 +8,7 @@ const Advantages = () => {
   };
 
   return (
-    <div id="avantage" className="scroll-mt-20 bg-gray-50 py-12 mt-32 max-md:mt-15">
+    <div id="avantage" className="scroll-mt-20 py-12 mt-32 max-md:mt-15">
       <div className="max-w-6xl mx-auto text-center px-4">
         <h2 className="text-3xl text-blue font-semibold uppercase">
           Notre Avantage

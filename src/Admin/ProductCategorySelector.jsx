@@ -20,12 +20,12 @@ const ProductCategorySelector = ({ selectedCategory, onCategoryChange }) => {
     query === ''
       ? categories
       : categories.filter((category) =>
-          normalizeText(category.name).includes(normalizeText(query))
+          normalizeText(category.nom_categorie).includes(normalizeText(query))
         );
 
   const handleAddCategory = () => {
-    if (query && !categories.some((category) => normalizeText(category.name) === normalizeText(query))) {
-      const newCategory = { name: query };
+    if (query && !categories.some((category) => normalizeText(category.nom_categorie) === normalizeText(query))) {
+      const newCategory = { nom_categorie: query };
       setCategories([...categories, newCategory]);
       setSelected(query); // Set the newly added category as selected
       onCategoryChange(newCategory);
@@ -35,12 +35,15 @@ const ProductCategorySelector = ({ selectedCategory, onCategoryChange }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('/api/post/categories');
+        const response = await fetch('/api/categorie');
         if (!response.ok) {
           throw new Error('Erreur lors du chargement des catégories');
         }
         const data = await response.json();
-        setCategories(data); // Assurez-vous que la structure des données correspond à `data.categories`
+        
+        console.log(data);
+        
+        setCategories(data.categories); // Assurez-vous que la structure des données correspond à `data.categories`
       } catch (error) {
         console.error(error.message);
       }
@@ -51,6 +54,7 @@ const ProductCategorySelector = ({ selectedCategory, onCategoryChange }) => {
 
   useEffect(() => {
     setSelected(selectedCategory || '');
+    setQuery('')
   }, [selectedCategory]);
 
   return (
@@ -91,16 +95,16 @@ const ProductCategorySelector = ({ selectedCategory, onCategoryChange }) => {
               filteredCategories.map((category, index) => (
                 <Combobox.Option
                   key={index}
-                  value={category.name}
+                  value={category.nom_categorie}
                   className={({ active }) =>
                     `relative hover:bg-lightblue cursor-pointer select-none py-2 px-4 ${active ? 'bg-blue-500 text-black' : 'text-gray-900'}`
                   }
                 >
-                  {category.name}
+                  {category.nom_categorie}
                 </Combobox.Option>
               ))
             )}
-            {query && !categories.some((category) => normalizeText(category.name) === normalizeText(query)) && (
+            {query && !categories.some((category) => normalizeText(category.nom_categorie) === normalizeText(query)) && (
               <div
                 className="relative cursor-pointer select-none py-2 px-4 text-blue-500"
                 onClick={handleAddCategory}

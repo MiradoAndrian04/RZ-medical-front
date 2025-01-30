@@ -32,7 +32,7 @@ export const RedirectIfAuthenticated = () => {
 function App() {
   const location = useLocation();
   return (
-    <>
+    <div className="App">
       {location.pathname !== '/login' && <Navbar />}
       <Routes>
         <Route path="/" element={<Body />} />
@@ -55,7 +55,7 @@ function App() {
         </Route>
         <Route path="/contact" element={<ContactPage />} />
       </Routes>
-    </>
+    </div>
   );
 }
 

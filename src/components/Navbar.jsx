@@ -5,9 +5,15 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import ReactModal from "react-modal";
+
+ReactModal.setAppElement('#root');
+
 function Navbar() {
   //   const [isOpen, setIsOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const user = useRecoilValue(userAtom);
   const setUser = useSetRecoilState(userAtom);
   const menuRef = useRef(null);
@@ -39,16 +45,41 @@ function Navbar() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLogout = () => {
-    const confirmed = window.confirm("Êtes-vous sûr de vouloir vous déconnecter ?");
-    if (confirmed) {
-      // Réinitialiser l'état de l'utilisateur
+  const handleLogout = async () => {
+    try {
+      const token = JSON.parse(localStorage.getItem("admin-user"));
+      const response = await fetch('/api/logout', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de la déconnexion');
+      }
+
       setUser(null);
-      // Effacer l'access token du local storage
       localStorage.removeItem("admin-user");
-      // Rediriger vers la page de connexion
       navigate("/login");
+    } catch (error) {
+      console.error('Erreur lors de la déconnexion:', error);
+      alert('Une erreur est survenue lors de la déconnexion.');
     }
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const confirmLogout = () => {
+    handleLogout();
+    closeModal();
   };
   const handleClickOutside = (event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -138,9 +169,10 @@ function Navbar() {
                       </Link>
                     </MenuItem>
                     <MenuItem>
-                      <button 
-                      onClick={handleLogout}
-                      className="block px-4 py-2 text-sm text-left text-gray-700 hover:bg-lightblue data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none w-full">
+                      <button
+                        onClick={openModal}
+                        className="block px-4 py-2 text-sm text-left text-gray-700 hover:bg-lightblue data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none w-full"
+                      >
                         <FontAwesomeIcon
                           icon={faSignOutAlt}
                           size="sm"
@@ -148,10 +180,29 @@ function Navbar() {
                         />
                         Déconnexion
                       </button>
+                      
                     </MenuItem>
                   </div>
                 </MenuItems>
               </Menu>
+              <ReactModal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel="Confirmation de déconnexion"
+        className="modal-content"
+        overlayClassName="modal-overlay"
+      >
+        <h2 className="text-xl font-semibold mb-4">Confirmation de déconnexion</h2>
+        <p className="mb-6">Êtes-vous sûr de vouloir vous déconnecter ?</p>
+        <div className="flex justify-end">
+          <button onClick={confirmLogout} className="bg-red-500 text-white px-4 py-2 rounded mr-2">
+            Oui
+          </button>
+          <button onClick={closeModal} className="bg-gray-300 text-black px-4 py-2 rounded">
+            Non
+          </button>
+        </div>
+      </ReactModal>
             </>
           ) : (
             <>
@@ -163,7 +214,6 @@ function Navbar() {
                   Produits
                 </Link>
                 <ul className="flex space-x-6">
-
                   <li
                     onClick={() => handleScroll("services")}
                     className="cursor-pointer hover:text-blue"
@@ -173,16 +223,16 @@ function Navbar() {
                   <li
                     onClick={() => handleScroll("about")}
                     className="cursor-pointer hover:text-blue"
-                    >
+                  >
                     Apropos
                   </li>
                   <li
                     onClick={() => handleScroll("avantage")}
                     className="cursor-pointer hover:text-blue"
-                    >
+                  >
                     Avantages
                   </li>
-                    </ul>
+                </ul>
                 <Link to="/contact">Contacter-nous</Link>
               </div>
               <div
@@ -214,7 +264,7 @@ function Navbar() {
 
         {/* Menu mobile (affiché si isMenuOpen est vrai) */}
         <div
-        ref={menuRef}
+          ref={menuRef}
           className={`md:hidden ${
             isMenuOpen ? "block" : "hidden"
           } absolute top-16 left-0 w-full z-50 bg-white text-gray p-4`}
@@ -245,9 +295,10 @@ function Navbar() {
                 <FontAwesomeIcon icon={faCog} size="sm" className="mr-2" />
                 Paramètres du compte
               </Link>
-              <button 
-              onClick={handleLogout}
-              className="hover:text-blue block py-2 md:py-0">
+              <button
+                onClick={openModal}
+                className="hover:text-blue block py-2 md:py-0"
+              >
                 <FontAwesomeIcon
                   icon={faSignOutAlt}
                   size="sm"
@@ -258,31 +309,37 @@ function Navbar() {
             </>
           ) : (
             <>
-              <Link to="/products" className="hover:text-blue block py-2 md:py-0">
+              <Link
+                to="/products"
+                className="hover:text-blue block py-2 md:py-0"
+              >
                 Produits
               </Link>
               <ul className="flex flex-col">
-              <li
-                    onClick={() => handleScroll("services")}
-                    className="cursor-pointer hover:text-blue block py-2 md:py-0"
-                  >
-                    Services
-                  </li>
-                  <li
-                    onClick={() => handleScroll("about")}
-                    className="cursor-pointer hover:text-blue block py-2 md:py-0"
-                  >
-                    Apropos
-                  </li>
-                  <li
-                    onClick={() => handleScroll("avantage")}
-                    className="cursor-pointer hover:text-blue block py-2 md:py-0"
-                  >
-                    Avantages
-                  </li>
-                    </ul>
-                
-              <Link to="/contact" className="hover:text-blue block py-2 md:py-0">
+                <li
+                  onClick={() => handleScroll("services")}
+                  className="cursor-pointer hover:text-blue block py-2 md:py-0"
+                >
+                  Services
+                </li>
+                <li
+                  onClick={() => handleScroll("about")}
+                  className="cursor-pointer hover:text-blue block py-2 md:py-0"
+                >
+                  Apropos
+                </li>
+                <li
+                  onClick={() => handleScroll("avantage")}
+                  className="cursor-pointer hover:text-blue block py-2 md:py-0"
+                >
+                  Avantages
+                </li>
+              </ul>
+
+              <Link
+                to="/contact"
+                className="hover:text-blue block py-2 md:py-0"
+              >
                 Contacter-nous
               </Link>
             </>

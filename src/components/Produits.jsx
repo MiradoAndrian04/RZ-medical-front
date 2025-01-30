@@ -18,12 +18,14 @@ function Produits() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("/api/post/products");
+        const response = await fetch("/api/produit");
         if (!response.ok) {
           throw new Error("Erreur lors de la récupération des produits");
         }
         const data = await response.json();
-        setProducts(data.slice(0, 11));
+        console.log(data.produits);
+        
+        setProducts(data.produits.slice(0, 11));
       } catch (error) {
         console.error(error.message);
       }
@@ -102,13 +104,13 @@ function Produits() {
   };
 
   return (
-    <div className="slider-container max-w-7xl mx-auto p-4">
+    <div className="slider-container max-w-7xl mx-auto p-4 bg-[url('/img/25916.jpg')] bg-no-repeat bg-contain bg-right bg-fixed h-auto">
       <Slider {...settings} className="px-10">
         {products.map((product, index) => (
-          <div key={index} onClick={() => handleProductClick(product._id)} className="cursor-pointer">
+          <div key={index} onClick={() => handleProductClick(product.id)} className="cursor-pointer">
             <ProduitCard
-              src={`${import.meta.env.VITE_APP_API_URL}${product.image}`} // Utilisez la variable d'environnementproduct.image}
-              titre={product.name}
+              src={`${import.meta.env.VITE_APP_API_URL}storage/${product.image_produit}`} // Utilisez la variable d'environnementproduct.image}
+              titre={product.nom_produit}
               className={
                 "w-[19vw] max-md:w-[25vw] max-sm:w-[33vw] flex flex-col my-3 mx-3"
               }

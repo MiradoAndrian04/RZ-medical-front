@@ -1,27 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
-import userAtom from '../atoms/userAtom';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faPhone, faLock, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AccountSettings = () => {
-  const user = useRecoilValue(userAtom);
+  const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({
+    nom_utilisateur: '',
+    prenom_utilisateur: '',
     email: '',
-    phone: [''],
-    password: '',
+    telephones: [''],
+    mot_de_passe: '',
     confirmPassword: '',
   });
 
+
+  const [showValidationField, setShowValidationField] = useState(false);
+  const [validationCode, setValidationCode] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+
   useEffect(() => {
-    if (user) {
-      setFormData((prev) => ({
-        ...prev,
-        email: user.email,
-        phone: user.phone ? user.phone.map(String) : [''],
-      }));
-    }
-  }, [user]);
+    const fetchUser = async () => {
+      try {
+        const token = JSON.parse(localStorage.getItem("admin-user"));
+        const response = await fetch('/api/admin/utilisateur', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Erreur lors de la récupération des informations utilisateur');
+        }
+        const data = await response.json();
+
+        
+        setUser(data.users[0]);
+        setUserEmail(data.users[0].email);
+        setFormData({
+          nom_utilisateur: data.users[0].nom_utilisateur,
+          prenom_utilisateur: data.users[0].prenom_utilisateur,
+          email: data.users[0].email,
+          telephones: data.users[0].telephones || [''],
+          mot_de_passe: '',
+          confirmPassword: '',
+        });
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -32,68 +64,140 @@ const AccountSettings = () => {
   };
 
   const handlePhoneChange = (index, value) => {
-    const newPhones = [...formData.phone];
+    const newPhones = [...formData.telephones];
     newPhones[index] = value;
     setFormData((prev) => ({
       ...prev,
-      phone: newPhones,
+      telephones: newPhones,
     }));
   };
 
   const addPhoneField = () => {
     setFormData((prev) => ({
       ...prev,
-      phone: [...prev.phone, ''],
+      telephones: [...prev.telephones, ''],
     }));
   };
 
   const removePhoneField = (index) => {
-    if (formData.phone.length > 1) {
-      const newPhones = formData.phone.filter((_, i) => i !== index);
+    if (formData.telephones.length > 1) {
+      const newPhones = formData.telephones.filter((_, i) => i !== index);
       setFormData((prev) => ({
         ...prev,
-        phone: newPhones,
+        telephones: newPhones,
       }));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert("Les mots de passe ne correspondent pas");
+    if (formData.mot_de_passe && formData.mot_de_passe !== formData.confirmPassword) {
+      toast.error("Les mots de passe ne correspondent pas");
       return;
     }
     try {
-      const response = await fetch(`/api/user/admin/${user._id}/update`, {
-        method: 'PATCH',
+      const token = JSON.parse(localStorage.getItem("admin-user"));
+      const formDataToSend = new FormData();
+      formDataToSend.append('nom_utilisateur', formData.nom_utilisateur);
+      formDataToSend.append('prenom_utilisateur', formData.prenom_utilisateur);
+      formDataToSend.append('email', formData.email);
+      formData.telephones.forEach((phone, index) => {
+        formDataToSend.append(`telephones[${index}]`, phone);
+      });
+      formDataToSend.append('mot_de_passe', formData.mot_de_passe);
+      formDataToSend.append('_method', 'PUT');
+
+      const response = await fetch(`/api/admin/update/${user.id}`, {
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          email: formData.email,
-          phone: formData.phone,
-          password: formData.password,
-        }),
+        body: formDataToSend,
       });
 
-      if (!response.ok) {
-        throw new Error('Erreur lors de la mise à jour des informations utilisateur');
-      }
+      const result = await response.json();
 
-      const data = await response.json();
-      console.log('Mise à jour réussie:', data);
-      alert('Mise à jour réussie');
+      if (response.ok) {
+        if (result.message.includes('Un email de validation a été envoyé')) {
+          toast.success(result.message);
+          setShowValidationField(true)
+        } else {
+          toast.success('Les informations utilisateur ont été mises à jour avec succès');
+        }
+      } else {
+        toast.error(result.message);
+      }
     } catch (error) {
       console.error('Erreur:', error);
-      alert('Erreur lors de la mise à jour des informations utilisateur');
+      toast.error('Erreur lors de la mise à jour des informations utilisateur');
     }
   };
+  const handleValidationSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const token = JSON.parse(localStorage.getItem("admin-user"));
+      const response = await fetch('/api/validation', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: userEmail, validation_code: validationCode }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.success('Votre compte a été mis à jour avec succès.');
+        setShowValidationField(false);
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error) {
+      console.error('Erreur de validation:', error);
+      toast.error('Erreur lors de la validation du code.');
+    }
+  };
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-lg p-8 space-y-6 bg-white rounded-lg shadow-md text-gray">
         <h2 className="text-3xl font-bold text-center text-gray-800">Paramètres du compte</h2>
+        {!showValidationField?(
         <form className="space-y-6" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="nom_utilisateur" className="block text-sm font-medium text-gray-700">
+              Nom
+            </label>
+            <div className="relative mt-1">
+              <input
+                type="text"
+                id="nom_utilisateur"
+                name="nom_utilisateur"
+                className="w-full px-3 py-2 pl-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                value={formData.nom_utilisateur}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+          </div>
+          <div>
+            <label htmlFor="prenom_utilisateur" className="block text-sm font-medium text-gray-700">
+              Prénom
+            </label>
+            <div className="relative mt-1">
+              <input
+                type="text"
+                id="prenom_utilisateur"
+                name="prenom_utilisateur"
+                className="w-full px-3 py-2 pl-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                value={formData.prenom_utilisateur}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+          </div>
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Adresse Email
@@ -114,24 +218,24 @@ const AccountSettings = () => {
             </div>
           </div>
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="telephones" className="block text-sm font-medium text-gray-700">
               Numéro de Téléphone
             </label>
-            {formData.phone.map((phone, index) => (
+            {formData.telephones.map((phone, index) => (
               <div className="relative mt-1 flex items-center" key={index}>
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                   <FontAwesomeIcon icon={faPhone} className="text-gray-400" />
                 </span>
                 <input
                   type="tel"
-                  id={`phone-${index}`}
-                  name={`phone-${index}`}
+                  id={`telephones-${index}`}
+                  name={`telephones-${index}`}
                   className="w-full px-3 py-2 pl-10 mb-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   value={phone}
                   onChange={(e) => handlePhoneChange(index, e.target.value)}
                   required
                 />
-                {formData.phone.length > 1 && (
+                {formData.telephones.length > 1 && (
                   <button
                     type="button"
                     onClick={() => removePhoneField(index)}
@@ -145,14 +249,14 @@ const AccountSettings = () => {
             <button
               type="button"
               onClick={addPhoneField}
-              className="flex items-center px-3 py-2 mt-2 text-sm font-medium text-blue border border-b;ue rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="flex items-center px-3 py-2 mt-2 text-sm font-medium text-blue border border-blue rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               <FontAwesomeIcon icon={faPlus} className="mr-2" />
               Ajouter un autre téléphone
             </button>
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="mot_de_passe" className="block text-sm font-medium text-gray-700">
               Mot de Passe
             </label>
             <div className="relative mt-1">
@@ -161,10 +265,10 @@ const AccountSettings = () => {
               </span>
               <input
                 type="password"
-                id="password"
-                name="password"
+                id="mot_de_passe"
+                name="mot_de_passe"
                 className="w-full px-3 py-2 pl-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                value={formData.password}
+                value={formData.mot_de_passe}
                 onChange={handleInputChange}
                 required
               />
@@ -198,6 +302,28 @@ const AccountSettings = () => {
             </button>
           </div>
         </form>
+        ):(
+          <form className="space-y-6" onSubmit={handleValidationSubmit}>
+          <div>
+            <label htmlFor="validationCode" className="block text-sm font-medium text-gray-700">
+              Code de Validation
+            </label>
+            <input
+              type="text"
+              id="validationCode"
+              name="validationCode"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+              value={validationCode}
+              onChange={(e) => setValidationCode(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="w-full px-4 py-2 text-white bg-green-600 rounded-md">
+            Valider le Code
+          </button>
+        </form>
+      )}
+        <ToastContainer position="bottom-right" pauseOnHover />
       </div>
     </div>
   );

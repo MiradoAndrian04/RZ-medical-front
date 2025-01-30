@@ -9,7 +9,7 @@ function ServprodCard() {
   };
 
   return (
-    <div  className="flex flex-col">
+    <div  className="flex flex-col bg-transparent">
       <motion.div
         variants={{
           hidden: { opacity: 0 },
@@ -65,13 +65,16 @@ function ServprodCard() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 1, ease: "easeOut", delay:0.5 }}
-        className="w-full max-w-[1160px] m-auto max-lg:aspect-video overflow-hidden aspect-video"
+        className="w-full max-w-[1160px] m-auto max-lg:aspect-video overflow-hidden aspect-video bg-[url('./img/RZ.jpeg')] bg-cover bg-center bg-fixed h-[500px]"
       >
-        <img
+        {/* <img
           src="../../public/img/RZ.jpeg"
           alt="Example"
           className="object-cover w-full h-full"
-        />
+        /> */}
+        <div className="bg-black w-full h-full opacity-70 flex items-center justify-center p-5">
+          <h2 className="text-white text-3xl">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione quidem iure quia sunt, molestiae totam similique animi in! Voluptatem, sequi. Repellat quos tenetur ut illum non iusto ad doloremque reprehenderit.</h2>
+        </div>
       </motion.div>
 
       <div id="services" className=" scroll-mt-20 flex flex-col max-w-[1160px] w-full  max-md:p-3 h-auto mt-[7%] mx-auto">
@@ -84,7 +87,7 @@ function ServprodCard() {
           whileInView={{ x: 0 }}
           transition={transition}
           viewport={{ once: true }}
-          className="flex flex-row max-md:flex-col w-full h-auto mt-5 max-md:mt-3 gap-5 max-md:gap-0 max-md:border-[1px] max-md:border-grey-300 rounded-md p-3"
+          className="flex flex-row max-md:flex-col bg-sky-500/10 items-center w-full h-auto mt-5 max-md:mt-3 gap-5 max-md:gap-0 max-md:border-[1px] max-md:border-grey-300 rounded-md p-3"
         >
           <div className="w-[30%] max-md:w-[70%] max-md:mx-auto h-auto ml-[2%]">
             <img
@@ -93,7 +96,7 @@ function ServprodCard() {
               alt="materiel"
             />
           </div>
-          <div className="flex-1 h-[250px]">
+          <div className="flex-1 flex items-center h-[250px]">
             <p className="mt-5 text-gray max-md:text-center">
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci
               doloremque totam pariatur architecto. Voluptate doloribus laborum
@@ -112,7 +115,7 @@ function ServprodCard() {
           whileInView={{ x: 0 }}
           transition={transition}
           viewport={{ once: true }}
-          className="flex flex-row max-md:flex-col-reverse w-full h-auto mt-5 max-md:mt-3 gap-5 max-md:gap-0 max-md:gap-0 max-md:border-[1px] max-md:border-grey-300 rounded-md p-3"
+          className="flex flex-row max-md:flex-col-reverse bg-sky-500/10 items-center w-full h-auto mt-5 max-md:mt-3 gap-5 max-md:gap-0 max-md:gap-0 max-md:border-[1px] max-md:border-grey-300 rounded-md p-3"
         >
           <div className="w-[70%] h-[250px] ml-[2%] max-lg:ml-3 max-md:mx-auto h-auto">
             <p className="mt-5 text-gray max-md:text-center mb-1">
@@ -140,7 +143,7 @@ function ServprodCard() {
           whileInView={{ x: 0 }}
           transition={transition}
           viewport={{ once: true }}
-          className="flex flex-row max-md:flex-col w-full h-auto mt-5 max-md:mt-3 gap-5 max-md:gap-0 max-md:gap-0 max-md:border-[1px] max-md:border-grey-300 rounded-md p-3"
+          className="flex flex-row max-md:flex-col bg-sky-500/10 items-center w-full h-auto mt-5 max-md:mt-3 gap-5 max-md:gap-0 max-md:gap-0 max-md:border-[1px] max-md:border-grey-300 rounded-md p-3"
         >
           <div className="w-[30%] max-md:w-[70%] max-md:mx-auto h-auto ml-[2%]">
             <img

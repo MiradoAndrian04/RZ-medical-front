@@ -5,6 +5,7 @@ import { faCaretSquareDown } from "@fortawesome/free-regular-svg-icons";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { productAtom } from "../atoms/productsAtom";
+import { toast, ToastContainer } from "react-toastify";
 
 function ProductsPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,12 +23,19 @@ function ProductsPage() {
 
   const fetchAllProducts = async () => {
     try {
-      const response = await fetch("/api/post/products");
+      const response = await fetch("/api/produit",{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       if (!response.ok) {
         throw new Error("Erreur lors de la récupération des produits");
       }
       const data = await response.json();
-      setProducts(data); // Mettre à jour l'état avec les produits récupérés
+      
+      setProducts(data.produits); // Mettre à jour l'état avec les produits récupérés
+      
       navigate("/products"); // Rediriger vers ProduitsAll
     } catch (error) {
       console.error(error.message);
@@ -36,18 +44,19 @@ function ProductsPage() {
 
   const fetchProductsByCategory = async (categoryId) => {
     try {
-      const response = await fetch(`/api/post/products/category?categoryId=${categoryId}`, {
-        method: 'POST',
+      
+      const response = await fetch(`/api/categorie/${categoryId}`, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ categoryId }), // Envoyer categoryId dans le corps de la requête
+        }, // Envoyer categoryId dans le corps de la requête
       });
       if (!response.ok) {
         throw new Error("Erreur lors de la récupération des produits par catégorie");
       }
       const data = await response.json();
-      setProducts(data); // Mettre à jour l'état avec les produits récupérés
+      
+      setProducts(data.categorie.produits); // Mettre à jour l'état avec les produits récupérés
       navigate("/products"); // Rediriger vers ProduitsAll
     } catch (error) {
       console.error(error.message);
@@ -56,8 +65,8 @@ function ProductsPage() {
 
   const handleSearch = async (searchTerm) => {
     try {
-      const response = await fetch(`/api/post/products/search?query=${encodeURIComponent(searchTerm)}`,{
-        method: "POST",
+      const response = await fetch(`/api/produit?recherche=${encodeURIComponent(searchTerm)}`,{
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         }
@@ -66,12 +75,13 @@ function ProductsPage() {
         throw new Error("Erreur lors de la recherche");
       }
       const data = await response.json();
-      if (data.message && data.message === "Aucun produit trouvé") {
-        console.log("Aucun produit trouvé");
+      if (data.message && data.message === "Aucun produit trouvé.") {
+        toast.error("Aucun produit trouvé.");
         // Vous pouvez afficher un message d'alerte à l'utilisateur ou faire autre chose ici
         return;
       }
-      setProducts(data); // Mettre à jour l'état global avec les résultats de recherche
+      
+      setProducts(data.produits); // Mettre à jour l'état global avec les résultats de recherche
     } catch (error) {
       console.error("Erreur lors de la recherche :", error);
     }
@@ -106,12 +116,12 @@ function ProductsPage() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("/api/post/categories"); // Remplacez par votre API
+        const response = await fetch("/api/categorie"); // Remplacez par votre API
         if (!response.ok) {
           throw new Error("Erreur lors de la récupération des catégories");
         }
         const data = await response.json();
-        setCategories(data); // Mettre à jour les catégories
+        setCategories(data.categories); // Mettre à jour les catégories
       } catch (error) {
         console.error(error.message);
       }
@@ -134,15 +144,20 @@ function ProductsPage() {
   }, []);
 
   const handleCategoryClick = (category) => {
-    setActiveCategory(category._id); // Mettre à jour la catégorie active
-    fetchProductsByCategory(category._id); // Récupérer les produits par catégorie
+    setActiveCategory(category.id); // Mettre à jour la catégorie active
+    fetchProductsByCategory(category.id); // Récupérer les produits par catégorie
   };
 
   // Réorganiser les catégories pour mettre la catégorie active en tête de liste
+  
   const sortedCategories = activeCategory
-    ? [categories.find((cat) => cat._id === activeCategory), ...categories.filter((cat) => cat._id !== activeCategory)]
+    ? [categories.find((cat) => cat.id === activeCategory), ...categories.filter((cat) => cat.id !== activeCategory)]
     : categories;
 
+    // if (!Array.isArray(sortedCategories)) {
+    //   return <div>Erreur: Les catégories ne sont pas disponibles.</div>;
+    // }
+    
   return (
     <div className="flex flex-col w-full h-auto bg-white">
       <div className="w-full h-[16vw] ">
@@ -190,14 +205,15 @@ function ProductsPage() {
                 <ul className="flex flex-col">
                   {sortedCategories.map((category) => (
                     <li
-                      key={category._id}
-                      className={`px-6 py-3 text-start hover:bg-slate-300 text-gray hover:cursor-pointer ${category._id === activeCategory ? 'bg-lightblue' : ''}`}
+                      key={category.id}
+                      className={`px-6 py-3 text-start hover:bg-slate-300 text-gray hover:cursor-pointer ${category.id === activeCategory ? 'bg-lightblue' : ''}`}
                       onClick={() => {
                         handleCategoryClick(category);
+                        
                         setIsMenuOpen(false);
                       }}
                     >
-                      {category.name}
+                      {category.nom_categorie}
                     </li>
                   ))}
                 </ul>
@@ -220,11 +236,11 @@ function ProductsPage() {
               <ul className="w-full text-center">
                 {sortedCategories.map((category) => (
                   <li
-                    key={category._id}
-                    className={`flex w-full py-3 border-b-[1px] cursor-pointer justify-center hover:bg-lightblue ${category._id === activeCategory ? 'bg-lightblue' : ''}`}
+                    key={category.id}
+                    className={`flex w-full py-3 border-b-[1px] cursor-pointer justify-center hover:bg-lightblue ${category.id === activeCategory ? 'bg-lightblue' : ''}`}
                     onClick={() => handleCategoryClick(category)}
                   >
-                    {category.name}
+                    {category.nom_categorie}
                   </li>
                 ))}
               </ul>
@@ -232,6 +248,7 @@ function ProductsPage() {
           </div>
         </div>
       </div>
+      <ToastContainer position="bottom-right"/>
     </div>
   );
 }

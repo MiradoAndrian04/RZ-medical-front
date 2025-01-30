@@ -7,14 +7,14 @@ import Footer from '../components/Footer'
 
 function Body() {
   return (
-    <>
+    <div className="">
     <HomeCard/>
     <Produits/>
     <ServProd/>
     <About/>
     <Avantage/>
     <Footer/>
-    </>
+    </div>
   )
 }
 

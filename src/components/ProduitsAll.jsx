@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const ProduitsAll = () => {
   const products = useRecoilValue(productAtom);
+  
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20; // Nombre d'éléments par page
@@ -17,6 +18,8 @@ const ProduitsAll = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentProducts = products.slice(startIndex, endIndex);
+
+  
 
   const handleProductClick = (productId) => {
     navigate(`/products/${productId}`);
@@ -53,17 +56,18 @@ const ProduitsAll = () => {
   };
 
   return (
-    <div className="flex flex-col w-full gap-1 p-2 pt-0 bg-[#f0f0f0] rounded-lg">
+    <div className="flex flex-col w-full min-h-[350px] gap-1 p-2 pt-0 bg-[#f0f0f0] rounded-lg">
       <div className="flex flex-row flex-wrap">
         {currentProducts.map((product) => (
+          
           <div
-            key={product._id}
+            key={product.id}
             className="w-[24.5%] max-md:w-[32.8%] max-sm:w-[48.5%] cursor-pointer"
-            onClick={() => handleProductClick(product._id)}
+            onClick={() => handleProductClick(product.id)}
           >
             <ProduitCard
-              src={`${import.meta.env.VITE_APP_API_URL}${product.image}`}
-              titre={product.name}
+              src={`${import.meta.env.VITE_APP_API_URL}storage/${product.image_produit}`}
+              titre={product.nom_produit}
             />
           </div>
         ))}
