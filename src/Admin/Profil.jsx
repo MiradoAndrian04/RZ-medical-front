@@ -1,6 +1,7 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 
-const ImageSelector = () => {
+const ImageSelector = ({ onImageChange }) => {
   const fileInputRef = useRef(null);
 
   const handleButtonClick = () => {
@@ -10,13 +11,13 @@ const ImageSelector = () => {
   const handleFileChange = (event) => {
     const file = event.target.files[0]; // Récupère le fichier sélectionné
     if (file) {
-      console.log('Fichier sélectionné :', file.name);
+      onImageChange(file);
     }
   };
 
   return (
     <div className="flex flex-col items-center">
-      <button
+      <button 
         onClick={handleButtonClick}
         className="w-full bg-gray-700 text-gray border-[1px] hover:bg-gray-300 hover:text-black border-gray py-2 rounded mb-6 hover:bg-gray-600"
       >
@@ -33,8 +34,21 @@ const ImageSelector = () => {
     </div>
   );
 };
+ImageSelector.propTypes = {
+  onImageChange: PropTypes.func.isRequired,
+};
 
-function UserProfileEdit() {
+const UserProfileEdit = () => {
+  const [selectedImage, setSelectedImage] = useState('/img/auto.png');
+
+  const handleImageChange = (file) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setSelectedImage(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
       <div className="bg-white text-white p-6 rounded-lg shadow-xl w-full max-w-md">
@@ -43,20 +57,20 @@ function UserProfileEdit() {
         <div className="flex items-center justify-center mb-6">
           <div className="relative">
             <img
-              src="/img/auto.png"
+              src={selectedImage}
               alt="User Icon"
               className="w-24 h-24 rounded-full border-4 border-gray-700"
             />
           </div>
         </div>
         
-        <ImageSelector />
+        <ImageSelector onImageChange={handleImageChange} />
 
         {/* Form Section */}
         <form>
           <div className="mb-4">
             <label className="block text-black text-sm font-semibold mb-1" htmlFor="username">
-              Nom d'utilisateur <span className="text-red-500">*</span>
+              Nom d&apos;utilisateur <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -109,6 +123,6 @@ function UserProfileEdit() {
       </div>
     </div>
   );
-}
+};
 
 export default UserProfileEdit;
