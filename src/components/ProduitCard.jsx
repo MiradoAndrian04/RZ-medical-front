@@ -1,18 +1,13 @@
-// eslint-disable-next-line react/prop-types
-function ProduitCard({ titre, src, className }) {
-  const defaultClassName =" mt-3 hover:shadow-md hover:shadow-grey-300 rounded-xl p-1";
-    ;
+const ProduitCard = ({ src, titre, categorie, description }) => {
   return (
-    <div className ={`${defaultClassName} ${className || ''}`}>
-        <div
-          className='w-full aspect-square rounded-lg bg-center bg-cover bg-no-repeat border-[1px] border-gray-100'
-          style={{ backgroundImage: `url(${src})` }}
-        ></div>
-        <div className="flex text-[17px] font-semibold mt-3 text-gray justify-center text-center">
-          {titre}
-        </div>
+    <div className=" shadow-md rounded-lg p-4 bg-[#e6e3e3] hover:bg-[#d4d2d2] mx-1">
+      <img src={src} alt={titre} className="w-full aspect-square object-cover rounded-lg" />
+      <hr className="my-2 h-px bg-gray border-0 dark:bg-gray-700"/>
+      <h2 className="mt-2 text-xl font-semibold">{titre}</h2>
+      <p className="text-sm text-gray">{categorie}</p> {/* Catégorie */}
+      <p className="text-sm text-gray-700 mt-2">{description}</p> {/* Description tronquée */}
     </div>
   );
-}
+};
 
 export default ProduitCard;

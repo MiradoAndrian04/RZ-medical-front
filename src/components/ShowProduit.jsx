@@ -3,10 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import userAtom from '../atoms/userAtom';
 import { productAtom } from '../atoms/productsAtom';
-import { toast, ToastContainer } from 'react-toastify';
 import ReactModal from 'react-modal';
 
-ReactModal.setAppElement('#root')
+ReactModal.setAppElement('#root');
 
 const ShowProduit = () => {
   const { id } = useParams();
@@ -16,42 +15,33 @@ const ShowProduit = () => {
   const setProducts = useSetRecoilState(productAtom);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`/api/produit/${id}`, {method: "GET"});
-        if (!response.ok) {
-          throw new Error('Erreur lors de la récupération du produit');
-        }
+        const response = await fetch(`/api/produit/${id}`);
+        if (!response.ok) throw new Error('Erreur lors de la récupération du produit');
         const data = await response.json();
-        
         setProduct(data.produit);
-        
 
-        // Récupérer le nom de la catégorie
         const categoryResponse = await fetch(`/api/categorie/${data.produit.categorie_id}`);
-        if (!categoryResponse.ok) {
-          throw new Error('Erreur lors de la récupération de la catégorie');
-        }
+        if (!categoryResponse.ok) throw new Error('Erreur lors de la récupération de la catégorie');
         const categoryData = await categoryResponse.json();
         
         setCategoryName(categoryData.categorie.nom_categorie);
       } catch (error) {
         console.error(error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchProduct();
   }, [id]);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const confirmDelete = async () => {
     try {
@@ -64,76 +54,94 @@ const ShowProduit = () => {
         },
       });
 
-      if (!response.ok) {
-        throw new Error('Erreur lors de la suppression du produit');
-      }
+      if (!response.ok) throw new Error('Erreur lors de la suppression du produit');
 
-      // Mettre à jour la liste des produits dans Recoil
-      setProducts((prevProducts) => prevProducts.filter((product) => product.id !== parseInt(id)));
-
-      toast.success('Produit supprimé avec succès');
-      navigate('/products'); // Rediriger vers la liste des produits après suppression
+      setProducts((prevProducts) => prevProducts.filter((p) => p.id !== parseInt(id)));
+      navigate('/products');
     } catch (error) {
       console.error('Erreur:', error);
-      toast.error('Erreur lors de la suppression du produit');
     } finally {
       closeModal();
     }
   };
 
-  const handleEdit = () => {
-    navigate(`/admin/edit-product/${product.id}`);
-  };
+  const handleEdit = () => navigate(`/admin/edit-product/${product.id}`);
+
+  if (loading) {
+    return (
+      <div className="w-full h-[400px] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500"></div>
+      </div>
+    );
+  }
 
   if (!product) {
-    return <div className='w-full h-[400px] flex items-center justify-center'>Chargement...</div>;
+    return <div className="text-center text-gray-600">Produit introuvable.</div>;
   }
 
   return (
-    <div className="flex w-full gap-1 p-3 pt-0 flex-row flex-wrap bg-[#f0f0f0] rounded-lg relative">
-      <div className="flex flex-row mt-3">
-        <div className="flex flex-row gap-5 max-md:flex-col h-auto mx-auto">
-          <img src={`${import.meta.env.VITE_APP_API_URL}storage/${product.image_produit}`} alt={product.nom_produit} className="w-[300px] h-[300px] max-md:w-full max-md:h-[35vw] rounded-lg object-contain border"/>
-          <div className="flex flex-col flex-1 h-auto mt-3 p-3">
-            <h1 className="text-3xl text-grey-100 font-semibold">{product.nom_produit}</h1>
-            <span className='text-gray italic'>{categoryName}</span>
-            <p className="flex text-xl font-semibold text-blue">{product.prix} Ar</p>
-            <h1 className="text-lg font-semibold text-grey-200 mt-5">Description :</h1>
-            <p className="text-gray">{product.description_produit}</p>
-            {user && (
-              <div className="flex mt-5 absolute bottom-5 right-5">
-                <button
-                  className="bg-red-500 text-white px-4 py-2 rounded mr-2"
-                  onClick={openModal}
-                >
-                  Supprimer
-                </button>
-                <button
-                  className="bg-blue text-white px-4 py-2 rounded"
-                  onClick={handleEdit}
-                >
-                  Modifier
-                </button>
-              </div>
-            )}
+    <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Image */}
+        <img 
+          src={`${import.meta.env.VITE_APP_API_URL}storage/${product.image_produit}`} 
+          alt={product.nom_produit} 
+          className="w-full h-[350px] object-contain border rounded-lg"
+        />
+
+        {/* Infos du produit */}
+        <div className="flex flex-col justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-808">{product.nom_produit}</h1>
+            <p className="text-gray italic mt-[-5px] text-sm">{categoryName}</p>
+            <p className="text-xl font-semibold text-blue my-3">{product.prix} Ar</p>
+            <hr />
+
+            <h2 className="text-lg font-semibold text-gray-700 mt-3">Description :</h2>
+            <p className="text-gray-600">{product.description_produit}</p>
           </div>
+
+          {/* Boutons Admin */}
+          {user && (
+            <div className="flex mt-6 space-x-3">
+              <button 
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition"
+                onClick={openModal}
+              >
+                Supprimer
+              </button>
+              <button 
+                className="bg-blue hover:bg-blue-600 text-white px-4 py-2 rounded transition"
+                onClick={handleEdit}
+              >
+                Modifier
+              </button>
+            </div>
+          )}
         </div>
       </div>
-      <ToastContainer position='bottom-right' pauseOnHover/>
+
+      {/* Modal de confirmation */}
       <ReactModal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
         contentLabel="Confirmation de suppression"
-        className="modal-content"
-        overlayClassName="modal-overlay"
+        className="p-6 bg-white rounded-lg shadow-lg w-96 mx-auto mt-30"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
       >
-        <h2 className="text-xl font-semibold mb-4">Confirmation de suppression</h2>
-        <p className="mb-6">Êtes-vous sûr de vouloir supprimer ce produit ?</p>
-        <div className="flex justify-end">
-          <button onClick={confirmDelete} className="bg-red-500 text-white px-4 py-2 rounded mr-2">
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">Confirmation de suppression</h2>
+        <p className="text-gray-600 mb-6">Êtes-vous sûr de vouloir supprimer ce produit ?</p>
+        <div className="flex justify-end space-x-3">
+          <button 
+            onClick={confirmDelete} 
+            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition"
+          >
             Oui
           </button>
-          <button onClick={closeModal} className="bg-gray-300 text-black px-4 py-2 rounded">
+          <button 
+            onClick={closeModal} 
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded transition"
+          >
             Non
           </button>
         </div>

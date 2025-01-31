@@ -20,7 +20,7 @@ const HomeCard = () => {
     slidesToScroll: 1,
     autoplay: true,
     speed:1500,
-    autoplaySpeed: 5000,
+    autoplaySpeed: 3000,
     fade:true,
     // pauseOnHover: true
   };

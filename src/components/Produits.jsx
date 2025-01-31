@@ -14,6 +14,9 @@ import { useNavigate } from "react-router-dom";
 function Produits() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const truncateDescription = (text, maxLength) => {
+    return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -81,8 +84,10 @@ function Produits() {
     dots: true,
     infinite: true,
     speed: 500,
+    autoplay: true,
+    autoplaySpeed: 2000,
     slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToScroll: 1,
     nextArrow: <SampleNextArrow className={"chevron"} />,
     prevArrow: <SamplePrevArrow />,
     responsive: [
@@ -90,14 +95,14 @@ function Produits() {
         breakpoint: 768,
         settings: {
           slidesToShow: 3,
-          slidesToScroll: 3,
+          slidesToScroll: 1,
         },
       },
       {
         breakpoint: 640,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 2,
+          slidesToScroll: 1,
         },
       },
     ],
@@ -107,13 +112,12 @@ function Produits() {
     <div className="slider-container max-w-7xl mx-auto p-4 bg-[url('/img/25916.jpg')] bg-no-repeat bg-contain bg-right bg-fixed h-auto">
       <Slider {...settings} className="px-10">
         {products.map((product, index) => (
-          <div key={index} onClick={() => handleProductClick(product.id)} className="cursor-pointer">
+          <div key={index} onClick={() => handleProductClick(product.id)} className="cursor-pointer w-[5] max-md:w-[25vw] max-sm:w-[33vw] flex flex-col my-3">
             <ProduitCard
               src={`${import.meta.env.VITE_APP_API_URL}storage/${product.image_produit}`} // Utilisez la variable d'environnementproduct.image}
               titre={product.nom_produit}
-              className={
-                "w-[19vw] max-md:w-[25vw] max-sm:w-[33vw] flex flex-col my-3 mx-3"
-              }
+              categorie={product.categorie ? truncateDescription(product.categorie.nom_categorie,15): ""} // Assurez-vous que 'categorie_nom' est bien le nom de la catégorie
+              description={truncateDescription(product.description_produit, 18)} // 
             />
           </div>
         ))}

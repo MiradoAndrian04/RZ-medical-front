@@ -28,6 +28,24 @@ export const RedirectIfAuthenticated = () => {
   return <Outlet />;
 };
 
+let idleTimer;
+const maxIdleTime = 2 * 60 * 60 * 1000; // 30 minutes d'inactivité
+
+const resetIdleTimer = () => {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+        localStorage.removeItem('access_token');
+        window.location.href = '/login'; // Rediriger vers la page de connexion
+    }, maxIdleTime);
+};
+
+// Ajouter des écouteurs d'événements pour l'activité de l'utilisateur
+window.addEventListener('mousemove', resetIdleTimer);
+window.addEventListener('keydown', resetIdleTimer);
+
+// Initialiser le timer d'inactivité
+resetIdleTimer();
+
 function App() {
   const location = useLocation();
   return (

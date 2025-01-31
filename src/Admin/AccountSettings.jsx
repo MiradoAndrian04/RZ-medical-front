@@ -38,7 +38,6 @@ const AccountSettings = () => {
 
         
         setUser(data.users[0]);
-        setUserEmail(data.users[0].email);
         setFormData({
           nom_utilisateur: data.users[0].nom_utilisateur,
           prenom_utilisateur: data.users[0].prenom_utilisateur,
@@ -91,6 +90,16 @@ const AccountSettings = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const isValidPhoneNumbers = formData.telephones.every(phone => phone.length === 10);
+  
+    if (!isValidPhoneNumbers) {
+      toast.error("Chaque numéro de téléphone doit contenir exactement 10 chiffres.");
+      return;
+    }
+
+    setUserEmail(formData.email);
+    
     if (formData.mot_de_passe && formData.mot_de_passe !== formData.confirmPassword) {
       toast.error("Les mots de passe ne correspondent pas");
       return;
@@ -116,6 +125,7 @@ const AccountSettings = () => {
       });
 
       const result = await response.json();
+      console.log(result);
 
       if (response.ok) {
         if (result.message.includes('Un email de validation a été envoyé')) {
@@ -146,6 +156,7 @@ const AccountSettings = () => {
       });
 
       const result = await response.json();
+      console.log(result);
 
       if (response.ok) {
         toast.success('Votre compte a été mis à jour avec succès.');

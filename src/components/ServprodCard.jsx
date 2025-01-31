@@ -34,7 +34,7 @@ function ServprodCard() {
         viewport={{ once: true }}
         transition={{ duration: 1.5, ease: "easeOut", delay: 1 }}
         >
-          <Link to="/produit">
+          <Link to="/products">
           <div className='flex justify-end w-full h-full rounded-md bg-[url("./img/produit.jpg")] bg-cover bg-no-repeat p-5'>
             <p className="font-medium text-white text-lg inline-block h-[55px] backdrop-blur-2xl rounded-lg p-3">
               Tout nos produits

@@ -8,16 +8,20 @@ function ContactPage() {
   useEffect(() => {
     const fetchContactInfo = async () => {
       try {
-        const response = await fetch('/api/user/contact');
+        const response = await fetch('/api/users');
         if (!response.ok) {
           throw new Error('Erreur lors de la récupération des informations de contact');
         }
         const data = await response.json();
+        console.log("data", data);
         
-         if (Array.isArray(data) && data.length > 0) {
-          setContactInfo(data[0]); // Mettre à jour l'état avec le premier élément du tableau
-          console.log(data[0]);
-          
+        if (data && data.success && data.users && data.users.length > 0) {
+          // Récupérer les informations de contact depuis la première entrée du tableau users
+          const user = data.users[0];
+          setContactInfo({
+            email: user.email,
+            phone: user.telephones
+          });
         }
       } catch (error) {
         console.error('Erreur:', error);

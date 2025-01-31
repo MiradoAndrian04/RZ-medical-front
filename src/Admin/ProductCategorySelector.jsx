@@ -23,14 +23,15 @@ const ProductCategorySelector = ({ selectedCategory, onCategoryChange }) => {
           normalizeText(category.nom_categorie).includes(normalizeText(query))
         );
 
-  const handleAddCategory = () => {
-    if (query && !categories.some((category) => normalizeText(category.nom_categorie) === normalizeText(query))) {
-      const newCategory = { nom_categorie: query };
-      setCategories([...categories, newCategory]);
-      setSelected(query); // Set the newly added category as selected
-      onCategoryChange(newCategory);
-    }
-  };
+        const handleAddCategory = () => {
+          if (query && !categories.some((category) => normalizeText(category.nom_categorie) === normalizeText(query))) {
+            const newCategory = { nom_categorie: query };
+            setCategories([...categories, newCategory]);
+            setSelected(newCategory.nom_categorie); // Mettre la catégorie ajoutée comme sélectionnée
+            setQuery(newCategory.nom_categorie); // Mettre à jour le champ de saisie
+            onCategoryChange(newCategory.nom_categorie); // Notifier le parent
+          }
+        };
 
   useEffect(() => {
     const fetchCategories = async () => {
