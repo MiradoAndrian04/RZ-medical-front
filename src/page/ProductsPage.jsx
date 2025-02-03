@@ -312,7 +312,7 @@ const [categoryToDelete, setCategoryToDelete] = useState(null);
     : categories;
 
   return (
-    <div className="flex flex-col w-full h-auto bg-white">
+    <div className="flex flex-col mt-[75px] w-full h-auto bg-white">
       <div className="w-full h-[16vw] ">
         <img
           src="../../public/img/RZ.jpeg"
@@ -400,7 +400,7 @@ const [categoryToDelete, setCategoryToDelete] = useState(null);
                       ) : (
                         <div className="flex gap-1 px-1">
                           <FontAwesomeIcon
-                            icon={faPen}
+                            icon={faPen}npm
                             size="sm"
                             className="text-gray cursor-pointer hover:bg-slate-100 rounded-lg p-1"
                             onClick={(e) => {

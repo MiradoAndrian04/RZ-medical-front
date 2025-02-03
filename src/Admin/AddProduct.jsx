@@ -62,7 +62,7 @@ const AddProduct = () => {
 
     try {
       const token = JSON.parse(localStorage.getItem("admin-user"));
-      const response = await fetch("http://localhost:8000/api/admin/produit", { // Assurez-vous que l'URL est correcte
+      const response = await fetch("/api/admin/produit", { // Assurez-vous que l'URL est correcte
         method: "POST",
         body: formDataToSend,
         headers: {

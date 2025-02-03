@@ -32,8 +32,8 @@ function ContactPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray50 flex items-center justify-center px-4 py-5">
-      <div className="max-w-7xl w-full bg-white shadow-lg rounded-lg overflow-hidden">
+    <div className="h-[100vh] bg-gray50 mt-[75px] flex items-center justify-center px-4 py-5">
+      <div className="max-w-6xl w-full bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="md:flex">
 
           {/* Contact Info Section */}
@@ -74,7 +74,7 @@ function ContactPage() {
           {/* Map Section */}
           <div className="w-full md:w-3/5">
           <iframe
-              className="w-full h-[600px]"
+              className="w-full h-[550px]"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3858.856743292647!2d47.50790531535268!3d-18.8791909872201!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x21f07d4d1a32cbcd%3A0x9e54d7e7e8cba4c2!2sAntananarivo%2C%20Madagascar!5e0!3m2!1sen!2sus!4v1616679124976!5m2!1sen!2sus&markers=color:red%7Clabel:C%7C-18.8791909872201,47.50790531535268"
               allowFullScreen=""
               loading="lazy"

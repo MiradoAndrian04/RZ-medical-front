@@ -94,8 +94,8 @@ function Navbar() {
     };
   }, []);
   return (
-    <div className=" sticky top-0 flex flex-col z-50">
-      <nav className="bg-white text-gray p-4  w-full">
+    <div className=" fixed top-0  flex flex-col z-50 w-full">
+      <nav className="bg-white text-gray p-4 h-[75px] w-full">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
           {/* Logo */}
           <div className="text-2xl font-bold">
@@ -191,6 +191,8 @@ function Navbar() {
         contentLabel="Confirmation de déconnexion"
         className="modal-content"
         overlayClassName="modal-overlay"
+        shouldCloseOnOverlayClick={true} // Permet de fermer en cliquant à l'extérieur
+        bodyOpenClassName=""
       >
         <h2 className="text-xl font-semibold mb-4">Confirmation de déconnexion</h2>
         <p className="mb-6">Êtes-vous sûr de vouloir vous déconnecter ?</p>

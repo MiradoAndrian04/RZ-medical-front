@@ -98,7 +98,7 @@ const EditProduct = () => {
 
     try {
       const token = JSON.parse(localStorage.getItem("admin-user"));
-      const response = await fetch(`http://localhost:8000/api/admin/produit/${id}`, {
+      const response = await fetch(`/api/admin/produit/${id}`, {
         method: "POST",
         body: formDataToSend,
         headers: {
