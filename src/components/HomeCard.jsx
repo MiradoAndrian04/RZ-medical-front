@@ -19,8 +19,8 @@ const HomeCard = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    speed:1500,
-    autoplaySpeed: 3000,
+    speed:3000,
+    autoplaySpeed: 7000,
     fade:true,
     // pauseOnHover: true
   };
@@ -31,7 +31,7 @@ const HomeCard = () => {
 
 
   return (
-    <div className="shadow-xl">
+    <div className="shadow-xl home">
       <div className="slider-container h-[35vw]  relative overflow-hidden">
         {/* <h2>Auto Play {"&"} Pause with buttons</h2> */}
 
@@ -40,24 +40,24 @@ const HomeCard = () => {
           {...settings}
           className=" slider1 w-[100vw]"
         >
-          <div className="bg-[url('/img/equiper-pharmacie-avec-rdm.jpg')] bg-no-repeat bg-cover w-[100vw] h-[35vw]  relative">
-            <div className="absolute w-[100vw] h-full bg-black opacity-35 z-10"></div>
-            <h1 className="titreHome text-white text-[45px] max-lg:text-2xl font-semibold italic absolute left-[5%] top-[15%] leading-[1.5] w-[55%] max-sm:w-[90%]">
+          <div className="bg-[url('/img/equiper-pharmacie-avec-rdm.jpg')] bg-no-repeat bg-cover w-[100vw] h-[35vw]  relative ">
+            <div className="absolute w-[100vw] h-full bg-black opacity-35 z-10 "></div>
+            <h1 className="titreHome text-white text-[45px] max-lg:text-2xl max-sm:text-xl font-semibold italic absolute left-[5%] top-[15%] leading-[1.5] w-[55%] max-sm:w-[90%]">
               Bienvenue sur RZ Medical, <br />votre partenaire en équipement médical
             </h1>
           </div>
           <div className="bg-[url('/img/IBIOM_-_Fauteuil_de_dialyse_TRIAD_HMR.jpg')] bg-no-repeat bg-cover w-[100vw] h-[35vw] relative">
             <div className="absolute w-[100vw] h-full bg-black opacity-35 z-10"></div>
 
-            <h1 className="titreHome text-white text-[45px] max-lg:text-2xl font-semibold italic absolute left-[5%] top-[15%] leading-[1.5] w-[55%] max-sm:w-[90%]">
+            <h1 className="titreHome text-white text-[45px] max-lg:text-2xl max-sm:text-xl font-semibold italic absolute left-[5%] top-[15%] leading-[1.5] w-[55%] max-sm:w-[90%]">
             Découvrez une large gamme <br /> d’équipements médicaux pour <br />accompagner vos soins.
             </h1>
           </div>
           <div className="bg-[url('/img/materiel.jpg')] bg-no-repeat bg-cover w-[100vw] h-[35vw] relative">
             <div className="absolute w-[100vw] h-full bg-black opacity-35 z-10"></div>
 
-            <h1 className="titreHome text-white text-[45px] max-lg:text-2xl font-semibold italic absolute left-[5%] top-[15%] leading-[1.5] w-[55%] max-sm:w-[90%]">
-            Nous sommes là pour répondre à vos <br />besoins avec des solutions fiables et <br />adaptées.
+            <h1 className="titreHome text-white text-[45px] max-lg:text-2xl max-sm:text-xl font-semibold italic absolute left-[5%] top-[15%] leading-[1.5] w-[55%] max-sm:w-[90%]">
+            Nous sommes là pour répondre à vos besoins avec des solutions fiables et adaptées.
             </h1>
           </div>
         </Slider>

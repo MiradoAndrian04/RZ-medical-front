@@ -1,14 +1,34 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faWhatsapp, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Footer() {
+  const navigate = useNavigate();
+  const handleScroll = (id) => {
+    if (location.pathname === "/") {
+      // Si on est déjà sur la page d'accueil, scroll directement
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // Si on n'est pas sur la page d'accueil, redirige et scroll après
+      navigate("/");
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 300); // Délai pour attendre que la page soit rendue
+    }
+  };
   return (
     <footer className="bg-darkgray text-white py-8">
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
         
         {/* Company Info Section */}
         <div>
-          <h2 className="text-2xl font-bold mb-4">Eray Digital</h2>
+          <h2 className="text-2xl font-bold mb-4">RZ Medical Equipment</h2>
           <p className="text-gray-400">
           Nous fournissons les meilleurs services à nos clients. <br /> Votre satisfaction est notre priorité.
           </p>
@@ -31,28 +51,33 @@ function Footer() {
         {/* Quick Links Section */}
         <div>
           <h2 className="text-xl font-bold mb-4">Lien rapides</h2>
+          <Link
+                  to="/products"
+                  className="hover:text-blue block py-2 mb-1"
+                >
+                  Produits
+                </Link>
           <ul className="space-y-2">
-            <li>
-              <a href="#" className="text-lightgray hover:text-white transition duration-300">
-                A propos
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-lightgray hover:text-white transition duration-300">
-                Services
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-lightgray hover:text-white transition duration-300">
-                Contactez nous
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-lightgray hover:text-white transition duration-300">
-                FAQ
-              </a>
-            </li>
-          </ul>
+                  <li
+                    onClick={() => handleScroll("services")}
+                    className="cursor-pointer hover:text-blue"
+                  >
+                    Services
+                  </li>
+                  <li
+                    onClick={() => handleScroll("about")}
+                    className="cursor-pointer hover:text-blue"
+                  >
+                    Apropos
+                  </li>
+                  <li
+                    onClick={() => handleScroll("avantage")}
+                    className="cursor-pointer hover:text-blue"
+                  >
+                    Avantages
+                  </li>
+                </ul>
+                <Link to="/contact" className='mt-2 hover:text-blue block'>Contacter-nous</Link>
         </div>
 
         {/* Contact Info Section */}
@@ -60,13 +85,13 @@ function Footer() {
           <h2 className="text-xl font-bold mb-4">Contactez nous</h2>
           <ul className="space-y-2">
             <li>
-              <p className="text-lightgray">Phone:+261 34 123 4567</p>
+              <p className="text-lightgray">Phone:+261 34 12 453 67</p>
             </li>
             <li>
               <p className="text-lightgray">Email: RZmedical@gmail.com</p>
             </li>
             <li>
-              <p className="text-lightgray">Address: 123 Ankadifotsy, Antananarivo, Madagascar</p>
+              <p className="text-lightgray">Address: LOt VU 295 Manakambahiny Antananarivo 101</p>
             </li>
           </ul>
         </div>

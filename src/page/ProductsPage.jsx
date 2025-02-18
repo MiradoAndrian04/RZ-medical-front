@@ -40,7 +40,7 @@ const [categoryToDelete, setCategoryToDelete] = useState(null);
 
   const fetchAllProducts = async () => {
     try {
-      const response = await fetch("/api/produit", {
+      const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/produit`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +66,7 @@ const [categoryToDelete, setCategoryToDelete] = useState(null);
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch("/api/categorie"); // Remplacez par votre API
+      const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/categorie`); // Remplacez par votre API
       if (!response.ok) {
         throw new Error("Erreur lors de la récupération des catégories");
       }
@@ -90,7 +90,7 @@ const [categoryToDelete, setCategoryToDelete] = useState(null);
     }
     try {
       const response = await fetch(
-        `/api/produit?recherche=${encodeURIComponent(searchTerm)}`,
+        `${import.meta.env.VITE_APP_API_URL}/produit?recherche=${encodeURIComponent(searchTerm)}`,
         {
           method: "GET",
           headers: {
@@ -111,6 +111,7 @@ const [categoryToDelete, setCategoryToDelete] = useState(null);
       }
   
       const data = await response.json();
+      console.log(data)
   
       // Si aucun produit n'est trouvé dans la réponse
       if (data.message && data.message === "Aucun produit disponible.") {
@@ -164,23 +165,22 @@ const [categoryToDelete, setCategoryToDelete] = useState(null);
   // };
 
   const handleCategoryClick = (category) => {
-    navigate("/products");
     setActiveCategory(category.id); // Mettre à jour la catégorie active
     fetchProductsByCategory(category.id); // Récupérer les produits par catégorie
+    navigate("/products");
+    setIsMenuOpen(false); // Fermer le menu après avoir cliqué sur une catégorie
   };
 
   const fetchProductsByCategory = async (categoryId) => {
     try {
-      const response = await fetch(`/api/categorie/${categoryId}`, {
+      const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/categorie/${categoryId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       });
       if (!response.ok) {
-        throw new Error(
-          "Erreur lors de la récupération des produits par catégorie"
-        );
+        throw new Error("Erreur lors de la récupération des produits par catégorie");
       }
       const data = await response.json();
       if (!Array.isArray(data.categorie.produits) || data.categorie.produits.length === 0) {
@@ -202,7 +202,7 @@ const [categoryToDelete, setCategoryToDelete] = useState(null);
 
   const handleCategorySave = async (categoryId) => {
     try {
-      const response = await fetch(`/api/admin/categorie/${categoryId}`, {
+      const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/admin/categorie/${categoryId}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("admin-user")}`,
@@ -247,7 +247,7 @@ const [categoryToDelete, setCategoryToDelete] = useState(null);
     if (categoryToDelete) {
       try {
         // Appelez l'API pour supprimer la catégorie ici
-        const response = await fetch(`/api/admin/categorie/${categoryToDelete}`, {
+        const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/admin/categorie/${categoryToDelete}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("admin-user")}`,
@@ -279,12 +279,11 @@ const [categoryToDelete, setCategoryToDelete] = useState(null);
     setIsDeleteModalOpen(false); // Fermer le modal après la suppression
   };
 
-  useEffect(() => {
-    if (location.pathname === "/products") {
-      fetchAllProducts();
-    }
-  }, [location.pathname]);
-
+ useEffect(() => {
+  if (location.pathname === "/products" && !activeCategory) {
+    fetchAllProducts();
+  }
+}, [location.pathname, activeCategory]);
   useEffect(() => {
     fetchCategories(); // Charger les catégories au montage
   }, []);
@@ -304,18 +303,19 @@ const [categoryToDelete, setCategoryToDelete] = useState(null);
   }, []);
 
   // Réorganiser les catégories pour mettre la catégorie active en tête de liste
-  const sortedCategories = activeCategory
-    ? [
-        categories.find((cat) => cat.id === activeCategory),
-        ...categories.filter((cat) => cat.id !== activeCategory),
-      ]
-    : categories;
+  const sortedCategories = categories
+  // activeCategory
+    // ? [
+    //     categories.find((cat) => cat.id === activeCategory),
+    //     ...categories.filter((cat) => cat.id !== activeCategory),
+    //   ]
+    // : categories;
 
   return (
-    <div className="flex flex-col mt-[75px] w-full h-auto bg-white">
+    <div className="flex flex-col mt-[75px] max-sm:mt-[60] w-full h-auto bg-white">
       <div className="w-full h-[16vw] ">
         <img
-          src="../../public/img/RZ.jpeg"
+          src="/img/RZ.jpeg"
           alt="Example"
           className="object-cover w-full h-full"
         />
@@ -363,7 +363,7 @@ const [categoryToDelete, setCategoryToDelete] = useState(null);
                 ref={menuRef}
                 className="absolute right-3 bg-white border border-gray-300 rounded-lg mt-2 w-auto min-w-[250px] max-w-[250px] shadow-md z-10"
               >
-                <ul className="flex flex-col">
+                <ul className="flex flex-col h-[50vh] overflow-y-auto">
                   {sortedCategories.map((category) => (
                     <li
                       key={category.id}
@@ -400,7 +400,7 @@ const [categoryToDelete, setCategoryToDelete] = useState(null);
                       ) : (
                         <div className="flex gap-1 px-1">
                           <FontAwesomeIcon
-                            icon={faPen}npm
+                            icon={faPen}
                             size="sm"
                             className="text-gray cursor-pointer hover:bg-slate-100 rounded-lg p-1"
                             onClick={(e) => {
@@ -431,7 +431,7 @@ const [categoryToDelete, setCategoryToDelete] = useState(null);
         <div className=" w-full h-auto px-3">
           <Outlet />
         </div>
-        <div className="flex flex-col p-3 pt-0 w-[25vw] h-auto max-lg:hidden sticky top-[70px]">
+        <div className="flex flex-col p-3 pt-0 w-[25vw] h-[86vh] max-lg:hidden sticky top-[75px]">
           <div className="w-full h-auto border-[1px] border-grey-300 rounded-lg">
             <div className="w-full h-12 bg-blue rounded-t-md">
               <h1 className="flex justify-center py-2 text-xl font-semibold text-white">
@@ -439,7 +439,7 @@ const [categoryToDelete, setCategoryToDelete] = useState(null);
               </h1>
             </div>
             <div>
-              <ul className="w-full text-center">
+              <ul className="w-full text-center h-[80vh] overflow-auto">
                 {sortedCategories.map((category) => (
                   <li
                     key={category.id}

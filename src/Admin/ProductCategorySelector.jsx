@@ -36,7 +36,7 @@ const ProductCategorySelector = ({ selectedCategory, onCategoryChange }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('/api/categorie');
+        const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/categorie`);
         if (!response.ok) {
           throw new Error('Erreur lors du chargement des catégories');
         }

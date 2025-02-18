@@ -22,7 +22,7 @@ const AboutComponent = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.4, // Rendre l'animation moins rapide
+        staggerChildren: 0.3, // Rendre l'animation moins rapide
       },
     },
   };

@@ -7,8 +7,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const AddProduct = () => {
   const [formData, setFormData] = useState({
+    reference:"",
     nom_produit: "",
-    prix: "",
+    prix: "0",
     categorie_nom: "",
     description_produit: "",
     image_produit: null,
@@ -62,7 +63,7 @@ const AddProduct = () => {
 
     try {
       const token = JSON.parse(localStorage.getItem("admin-user"));
-      const response = await fetch("/api/admin/produit", { // Assurez-vous que l'URL est correcte
+      const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/admin/produit`, { // Assurez-vous que l'URL est correcte
         method: "POST",
         body: formDataToSend,
         headers: {
@@ -75,6 +76,7 @@ const AddProduct = () => {
       if (response.ok && !result.errorsList) {
         toast.success("Produit ajouté avec succès");
         setFormData({
+          reference: "",
           nom_produit: "",
           prix: "",
           categorie_nom: "",
@@ -94,14 +96,14 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="w-[100%] h-auto flex items-center my-5">
+    <div className="w-[100%] h-auto flex items-center my-5 mt-[80px] max-sm:mt-[65px]">
       <form
         className="w-[800px] border-[1px] items-center border-grey rounded-lg mx-auto flex flex-col p-5 gap-3 shadow-md"
         onSubmit={handleSubmit}
       >
         <h1 className="font-semibold text-xl text-blue">Ajouter un produit</h1>
         <div className="flex flex-wrap max-md:flex-col w-full justify-between mt-5">
-          <div className="w-[45%] mx-auto ">
+          <div className="w-[45%] max-md:w-[70%] max-sm:w-full mx-auto md:mt-10 ">
             <label
               htmlFor="image"
               className="w-full max-md:mx-auto cursor-pointer bg-white hover:bg-gray-200 border-dashed border-[1px] border-gray rounded-md h-[250px] aspect-square flex flex-col justify-center items-center"
@@ -136,7 +138,27 @@ const AddProduct = () => {
             )}
           </div>
           <div className="w-[50%] max-md:w-full max-md:mt-5">
-            <div className="w-[100%]">
+          <div className="w-[100%]">
+              <label
+                htmlFor="reference"
+                className="block mb-2 text-sm font-medium text-gray-900"
+              >
+                Reference
+              </label>
+              <input
+                type="text"
+                id="reference"
+                name="reference"
+                className=" border border-grey text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-2 "
+                placeholder="Reference"
+                onChange={handleInputChange}
+                value={formData.reference}
+              />
+              {errors.nom_produit && (
+                <p className="text-red-500 text-sm mt-1">{errors.reference[0]}</p>
+              )}
+            </div>
+            <div className="w-[100%] mt-3">
               <label
                 htmlFor="name"
                 className="block mb-2 text-sm font-medium text-gray-900"
@@ -147,8 +169,8 @@ const AddProduct = () => {
                 type="text"
                 id="name"
                 name="nom_produit"
-                className=" border border-grey text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                placeholder="Titre"
+                className=" border border-grey text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-2 "
+                placeholder="Nom du produit"
                 onChange={handleInputChange}
                 value={formData.nom_produit}
               />
@@ -211,7 +233,7 @@ const AddProduct = () => {
             id="description"
             name="description_produit"
             rows="8"
-            className="block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-grey focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="block p-2 w-full text-sm text-gray-900 rounded-lg border border-grey focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Description du cours..."
             onChange={handleInputChange}
             value={formData.description_produit}

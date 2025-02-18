@@ -9,7 +9,7 @@ function ServprodCard() {
   };
 
   return (
-    <div  className="flex flex-col bg-transparent">
+    <div  className="service flex flex-col bg-transparent">
       <motion.div
         variants={{
           hidden: { opacity: 0 },
@@ -35,7 +35,7 @@ function ServprodCard() {
         transition={{ duration: 1.5, ease: "easeOut", delay: 1 }}
         >
           <Link to="/products">
-          <div className='flex justify-end w-full h-full rounded-md bg-[url("./img/produit.jpg")] bg-cover bg-no-repeat p-5'>
+          <div className='flex justify-end w-full h-full rounded-md bg-[url("/img/produit.jpg")] bg-cover bg-no-repeat p-5'>
             <p className="font-medium text-white text-lg inline-block h-[55px] backdrop-blur-2xl rounded-lg p-3">
               Tout nos produits
             </p>
@@ -51,7 +51,7 @@ function ServprodCard() {
         transition={{ duration: 1.5, ease: "easeOut", delay:1.5 }}
         >
           <Link to="/contact">
-          <div className=' flex justify-end w-full h-full rounded-md bg-[url("./img/contact.jpg")] bg-cover p-5'>
+          <div className=' flex justify-end w-full h-full rounded-md bg-[url("/img/contact.jpg")] bg-cover p-5'>
             <p className="font-medium text-white text-lg inline-block h-[55px] backdrop-blur-2xl rounded-lg p-3">
               Contactez-Nous
             </p>
@@ -65,7 +65,7 @@ function ServprodCard() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 1, ease: "easeOut", delay:0.5 }}
-        className="w-full max-w-[1160px] m-auto max-lg:aspect-video overflow-hidden aspect-video bg-[url('./img/RZ.jpeg')] bg-cover bg-center bg-fixed h-[500px]"
+        className="w-full max-w-[1160px] m-auto max-lg:aspect-video overflow-hidden aspect-video bg-[url('/img/RZ.jpeg')] bg-cover bg-center bg-fixed h-[500px]"
       >
         {/* <img
           src="../../public/img/RZ.jpeg"
@@ -73,7 +73,8 @@ function ServprodCard() {
           className="object-cover w-full h-full"
         /> */}
         <div className="bg-black w-full h-full opacity-70 flex items-center justify-center p-5">
-          <h2 className="text-white text-3xl">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione quidem iure quia sunt, molestiae totam similique animi in! Voluptatem, sequi. Repellat quos tenetur ut illum non iusto ad doloremque reprehenderit.</h2>
+          <h2 className="text-white text-3xl text-center">Nous fournissons les meilleurs services à nos clients. <br />
+          Votre satisfaction est notre priorité.</h2>
         </div>
       </motion.div>
 
@@ -92,20 +93,14 @@ function ServprodCard() {
           <div className="w-[30%] max-md:w-[70%] max-md:mx-auto h-auto ml-[2%]">
             <img
               className="w-full h-[200px] mt-5 object-cover"
-              src="../../public/img/materiel.png"
+              src="/img/materiel.png"
               alt="materiel"
             />
           </div>
-          <div className="flex-1 flex items-center h-[250px]">
+          <div className="flex-1 flex flex-col justify-center h-[250px]">
+            <h2 className="font-bold text-xl">Equipement</h2>
             <p className="mt-5 text-gray max-md:text-center">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci
-              doloremque totam pariatur architecto. Voluptate doloribus laborum
-              incidunt quos ipsam in obcaecati aperiam, sint consequatur dolores
-              accusantium atque, natus sed perspiciatis!Lorem ipsum dolor sit,
-              amet consectetur adipisicing elit. Adipisci doloremque totam
-              pariatur architecto. Voluptate doloribus laborum incidunt quos
-              ipsam in obcaecati aperiam, sint consequatur dolores accusantium
-              atque, natus sed perspiciatis!
+            Chez RZ Medical Equipment, nous mettons à votre disposition des équipements médicaux de haute qualité, conçus pour garantir performance, sécurité et durabilité. Nos produits répondent aux normes internationales les plus strictes, vous assurant une fiabilité inégalée pour une utilisation en toute confiance. Parce que votre satisfaction est notre priorité, nous sélectionnons les meilleures marques du marché, alliant innovation et excellence. Avec nos équipements de pointe, vous bénéficiez d'une technologie avancée pour optimiser vos soins et améliorer le bien-être de vos patients. Faites le choix de l'efficacité et de la sécurité avec RZ Medical Equipment, votre partenaire de confiance en matériel médical !
             </p>
           </div>
         </motion.div>
@@ -118,21 +113,16 @@ function ServprodCard() {
           className="flex flex-row max-md:flex-col-reverse bg-sky-500/10 items-center w-full h-auto mt-5 max-md:mt-3 gap-5 max-md:gap-0 max-md:gap-0 max-md:border-[1px] max-md:border-grey-300 rounded-md p-3"
         >
           <div className="w-[70%] h-[250px] ml-[2%] max-lg:ml-3 max-md:mx-auto h-auto">
+          <h2 className="font-bold text-xl">Livraison</h2>
+
             <p className="mt-5 text-gray max-md:text-center mb-1">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci
-              doloremque totam pariatur architecto. Voluptate doloribus laborum
-              incidunt quos ipsam in obcaecati aperiam, sint consequatur dolores
-              accusantium atque, natus sed perspiciatis!Lorem ipsum dolor sit,
-              amet consectetur adipisicing elit. Adipisci doloremque totam
-              pariatur architecto. Voluptate doloribus laborum incidunt quos
-              ipsam in obcaecati aperiam, sint consequatur dolores accusantium
-              atque, natus sed perspiciatis!
+            RZ Medical Equipment vous garantit un service de livraison rapide et sécurisé partout à Madagascar. Où que vous soyez, nous veillons à ce que vos équipements médicaux vous parviennent dans les meilleures conditions et dans les meilleurs délais. Grâce à notre réseau logistique performant, nous assurons une distribution efficace pour répondre à vos besoins urgents en matériel médical. Avec RZ Medical Equipment, vous bénéficiez d'une solution clé en main, alliant fiabilité, rapidité et professionnalisme. Faites confiance à notre expertise pour vous fournir des équipements de qualité, livrés directement à votre porte !
             </p>
           </div>
           <div className="w-[30%] max-md:w-[70%] max-md:mx-auto max-md:mb-[-30px] h-auto">
             <img
               className="w-full h-[200px] object-contain"
-              src="../../public/img/car.png"
+              src="/img/car.png"
               alt="car"
             />
           </div>
@@ -148,20 +138,15 @@ function ServprodCard() {
           <div className="w-[30%] max-md:w-[70%] max-md:mx-auto h-auto ml-[2%]">
             <img
               className="w-full h-[200px] object-cover"
-              src="../../public/img/chaise.png"
+              src="/img/serv.png"
               alt="chaise"
             />
           </div>
           <div className="w-[70%] max-md:mx-auto h-auto">
+          <h2 className="font-bold text-xl">Service après-vente</h2>
+
             <p className="mt-5 text-gray max-md:text-center">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci
-              doloremque totam pariatur architecto. Voluptate doloribus laborum
-              incidunt quos ipsam in obcaecati aperiam, sint consequatur dolores
-              accusantium atque, natus sed perspiciatis!Lorem ipsum dolor sit,
-              amet consectetur adipisicing elit. Adipisci doloremque totam
-              pariatur architecto. Voluptate doloribus laborum incidunt quos
-              ipsam in obcaecati aperiam, sint consequatur dolores accusantium
-              atque, natus sed perspiciatis!
+            Chez RZ Medical Equipment, votre satisfaction ne s'arrête pas à l'achat. Nous vous offrons un service après-vente hors pair, conçu pour répondre à tous vos besoins et vous assurer une tranquillité d'esprit totale. Notre équipe de techniciens experts est à votre disposition pour vous conseiller, vous assister et assurer la maintenance de vos équipements. Avec RZ Medical Equipment, vous bénéficiez d'un accompagnement personnalisé et de solutions rapides et efficaces en cas de besoin. Faites le choix de la sérénité, choisissez RZ Medical Equipment
             </p>
           </div>
         </motion.div>

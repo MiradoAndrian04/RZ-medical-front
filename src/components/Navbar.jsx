@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import ReactModal from "react-modal";
 
-ReactModal.setAppElement('#root');
+ReactModal.setAppElement("#root");
 
 function Navbar() {
   //   const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +17,8 @@ function Navbar() {
   const user = useRecoilValue(userAtom);
   const setUser = useSetRecoilState(userAtom);
   const menuRef = useRef(null);
+
+  const hamburgerRef = useRef(null);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -42,30 +44,36 @@ function Navbar() {
 
   // Fonction pour ouvrir/fermer le menu mobile
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen((prev) => !prev);
   };
+  useEffect(() => {
+    console.log(isMenuOpen);  // Affiche la valeur mise à jour
+  }, [isMenuOpen]); 
 
   const handleLogout = async () => {
     try {
       const token = JSON.parse(localStorage.getItem("admin-user"));
-      const response = await fetch('/api/logout', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/logout`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Erreur lors de la déconnexion');
+        throw new Error("Erreur lors de la déconnexion");
       }
 
       setUser(null);
       localStorage.removeItem("admin-user");
       navigate("/login");
     } catch (error) {
-      console.error('Erreur lors de la déconnexion:', error);
-      alert('Une erreur est survenue lors de la déconnexion.');
+      console.error("Erreur lors de la déconnexion:", error);
+      alert("Une erreur est survenue lors de la déconnexion.");
     }
   };
 
@@ -82,7 +90,12 @@ function Navbar() {
     closeModal();
   };
   const handleClickOutside = (event) => {
-    if (menuRef.current && !menuRef.current.contains(event.target)) {
+    // Si l'utilisateur clique en dehors du menu ET du bouton hamburger
+    if (
+      menuRef.current && 
+      !menuRef.current.contains(event.target) &&
+      !hamburgerRef.current.contains(event.target)
+    ) {
       setIsMenuOpen(false);
     }
   };
@@ -94,19 +107,23 @@ function Navbar() {
     };
   }, []);
   return (
-    <div className=" fixed top-0  flex flex-col z-50 w-full">
-      <nav className="bg-white text-gray p-4 h-[75px] w-full">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
+    <div className=" fixed top-0  flex flex-col z-50 w-full max-w-[100vw]">
+      <nav className="bg-white text-gray p-1 h-[75px] max-sm:h-[60px] w-full">
+        <div className="flex items-center justify-between max-w-[95vw] mx-auto">
           {/* Logo */}
           <div className="text-2xl font-bold">
             <Link to="/" className="text-gray">
-              Mon Logo
+              <img
+                src="/img/logoRZ.png"
+                alt="logo RZ"
+                className="w-[100px] ml-3 max-sm:w-[70px] max-sm:pt-1 max-sm:ml-1"
+              />
             </Link>
           </div>
 
           {/* Menu Hamburger pour mobile */}
           <div className="md:hidden">
-            <button onClick={toggleMenu} className="text-gray">
+            <button  ref={hamburgerRef} onClick={toggleMenu} className="text-gray">
               <svg
                 className="w-6 h-6"
                 fill="none"
@@ -118,7 +135,7 @@ function Navbar() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
+                  d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
                 />
               </svg>
             </button>
@@ -180,31 +197,40 @@ function Navbar() {
                         />
                         Déconnexion
                       </button>
-                      
                     </MenuItem>
                   </div>
                 </MenuItems>
               </Menu>
               <ReactModal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        contentLabel="Confirmation de déconnexion"
-        className="modal-content"
-        overlayClassName="modal-overlay"
-        shouldCloseOnOverlayClick={true} // Permet de fermer en cliquant à l'extérieur
-        bodyOpenClassName=""
-      >
-        <h2 className="text-xl font-semibold mb-4">Confirmation de déconnexion</h2>
-        <p className="mb-6">Êtes-vous sûr de vouloir vous déconnecter ?</p>
-        <div className="flex justify-end">
-          <button onClick={confirmLogout} className="bg-red-500 text-white px-4 py-2 rounded mr-2">
-            Oui
-          </button>
-          <button onClick={closeModal} className="bg-gray-300 text-black px-4 py-2 rounded">
-            Non
-          </button>
-        </div>
-      </ReactModal>
+                isOpen={isModalOpen}
+                onRequestClose={closeModal}
+                contentLabel="Confirmation de déconnexion"
+                className="modal-content z-50"
+                overlayClassName="modal-overlay"
+                shouldCloseOnOverlayClick={true} // Permet de fermer en cliquant à l'extérieur
+                bodyOpenClassName=""
+              >
+                <h2 className="text-xl font-semibold mb-4">
+                  Confirmation de déconnexion
+                </h2>
+                <p className="mb-6">
+                  Êtes-vous sûr de vouloir vous déconnecter ?
+                </p>
+                <div className="flex justify-end">
+                  <button
+                    onClick={confirmLogout}
+                    className="bg-red-500 text-white px-4 py-2 rounded mr-2"
+                  >
+                    Oui
+                  </button>
+                  <button
+                    onClick={closeModal}
+                    className="bg-gray-300 text-black px-4 py-2 rounded"
+                  >
+                    Non
+                  </button>
+                </div>
+              </ReactModal>
             </>
           ) : (
             <>
@@ -235,7 +261,9 @@ function Navbar() {
                     Avantages
                   </li>
                 </ul>
-                <Link to="/contact">Contacter-nous</Link>
+                <Link to="/contact" className="hover:text-blue">
+                  Contacter-nous
+                </Link>
               </div>
               <div
                 className={` searchButton border-l-2 border-blue pl-3 md:block`}
@@ -269,23 +297,29 @@ function Navbar() {
           ref={menuRef}
           className={`md:hidden ${
             isMenuOpen ? "block" : "hidden"
-          } absolute top-16 left-0 w-full z-50 bg-white text-gray p-4`}
+          } absolute top-16 max-sm:top-14 left-0 w-full z-50 bg-white text-gray p-4`}
         >
           {user ? (
             <>
-              <Link to="/" className="hover:text-blue block py-2 md:py-0">
+              <Link
+                to="/"
+                className="hover:text-blue block py-2 md:py-0"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 Accueil
               </Link>
 
               <Link
                 to="/products"
                 className="hover:text-blue block py-2 md:py-0"
+                onClick={() => setIsMenuOpen(false)}
               >
                 Produits
               </Link>
               <Link
                 to="/admin/add-product"
                 className="hover:text-blue block py-2 md:py-0"
+                onClick={() => setIsMenuOpen(false)}
               >
                 Ajout de produit
               </Link>
@@ -293,12 +327,16 @@ function Navbar() {
               <Link
                 to="/admin/account-settings"
                 className="hover:text-blue block py-2 md:py-0"
+                onClick={() => setIsMenuOpen(false)}
               >
                 <FontAwesomeIcon icon={faCog} size="sm" className="mr-2" />
                 Paramètres du compte
               </Link>
               <button
-                onClick={openModal}
+                onClick={() => {
+                  openModal();
+                  setIsMenuOpen(false);
+                }}
                 className="hover:text-blue block py-2 md:py-0"
               >
                 <FontAwesomeIcon
@@ -314,24 +352,34 @@ function Navbar() {
               <Link
                 to="/products"
                 className="hover:text-blue block py-2 md:py-0"
+                onClick={() => setIsMenuOpen(false)}
               >
                 Produits
               </Link>
               <ul className="flex flex-col">
                 <li
-                  onClick={() => handleScroll("services")}
+                  onClick={() => {
+                    handleScroll("services");
+                    setIsMenuOpen(false);
+                  }}
                   className="cursor-pointer hover:text-blue block py-2 md:py-0"
                 >
                   Services
                 </li>
                 <li
-                  onClick={() => handleScroll("about")}
+                  onClick={() => {
+                    handleScroll("about");
+                    setIsMenuOpen(false);
+                  }}
                   className="cursor-pointer hover:text-blue block py-2 md:py-0"
                 >
                   Apropos
                 </li>
                 <li
-                  onClick={() => handleScroll("avantage")}
+                  onClick={() => {
+                    handleScroll("avantage");
+                    setIsMenuOpen(false);
+                  }}
                   className="cursor-pointer hover:text-blue block py-2 md:py-0"
                 >
                   Avantages
@@ -341,6 +389,7 @@ function Navbar() {
               <Link
                 to="/contact"
                 className="hover:text-blue block py-2 md:py-0"
+                onClick={() => setIsMenuOpen(false)}
               >
                 Contacter-nous
               </Link>

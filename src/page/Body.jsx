@@ -7,7 +7,7 @@ import Footer from '../components/Footer'
 
 function Body() {
   return (
-    <div className="mt-[75px]">
+    <div className="body mt-[75px] max-sm:mt-[60px]">
     <HomeCard/>
     <Produits/>
     <ServProd/>

@@ -15,6 +15,7 @@ import ContactPage from "./page/ContactPage";
 import AddProduct from "./Admin/AddProduct";
 import EditProduct from "./Admin/EditProduct";
 import AccountSettings from "./Admin/AccountSettings";
+import NotFoundPage from "./page/NotFoundPage";
 
 export const RedirectIfAuthenticated = () => {
   const user = useRecoilValue(userAtom);
@@ -71,6 +72,7 @@ function App() {
           <Route path="account-settings" element={<AccountSettings />} />
         </Route>
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
   );
